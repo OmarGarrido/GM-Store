@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col-md-4 mt-5">
+        <div class="card">
+            <div class="card-header">
+                <span>Files</span>
+            </div>
+            <div class="card-body">
+                <div appNgImagesFiles [files]="files" (mouseOver)="isOverDrop=$event"
+                    [ngClass]="{'files-over':isOverDrop}" class="drop-zone">
+                    <h4>Drop Here your images</h4>
+                    <img src="assets/upload2.png" alt="drop-images" style="width: 10em;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h4>Files to Upload</h4>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Size</th>
+                            <th>Progress</th>
+                            <th>URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let file of files">
+                            <td>{{file.name}}</td>
+                            <td>{{file.file.size /1024/1024 |number: ".2.2"}}MB</td>
+                            <td *ngIf="file.uploadPercent|async as upload">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progresbar" [ngStyle]="{width: upload+'%'}">
+                                        {{upload | number:"1.0-0"}}%
+                                    </div>
+                                </div>
+                            </td>
+                            <td
+                             *ngIf="file.dowloadLink|async as URL">
+                             <a [href]="URL" target="_blank">Download URL</a>
+                             </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="container-buttons">
+                    <button class="btn btn-danger" (click)="files=[]">Clean all</button>
+                    <button class="btn btn-primary" style="margin-left: 50em;" (click)="onUpload()"
+                        [disabled]="files.length==0">Upload</button>
+                </div>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>link</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let file of files">
+            <td></td>
+        </tr>
+    </tbody>
+</table> 

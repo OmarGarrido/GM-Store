@@ -1,0 +1,8 @@
+.index{
+    /* list-style: none; */
+}
+
+body{
+    background-color: rgba(232, 232, 232, 0.66);
+}
+.sticky-top { top: 2em; }
