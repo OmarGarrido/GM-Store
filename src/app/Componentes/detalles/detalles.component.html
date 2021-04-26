@@ -17,9 +17,18 @@
             <img src="../../../assets/shipping-truck.png" class="img-fluid" style="height: 30px;">
             <p class="mt-1 ml-2">Envio Gratis</p>
         </div>
-        <h4 class="card-text mt-3">${{smartPhone.precio|number}}</h4>
+        <div style="display: flex;">
+            <h4 class="card-text mt-3">${{smartPhone.precio|number}}</h4>
+
+            <select [(ngModel)]="opt" name="lista" (change)="convert(smartPhone)" style="height: fit-content; margin-top: 18px; margin-left: 10px;">
+                <option [value]="item" *ngFor="let item of lista">{{item}}</option>
+            </select>
+
+        </div>
         <p class="text-muted">IVA incluido</p>
         <br>
-        <button class="btn btn-danger" style="width: 10rem;" [routerLink]="['/home']">Atras</button>
+        <button class="btn btn-danger" style="width: 10rem;" [routerLink]="['/Inicio']">Atras</button>
+        <button class="btn btn-success ml-3" style="width: 10rem;" (click)="verSmartphone(smartPhone)">Comprar
+            Ahora!</button>
     </div>
 </div>

@@ -10,21 +10,34 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarColor01">
-    <ul class="navbar-nav ml-auto mr-3">
+    <ul class="navbar-nav ml-auto mr-3" *ngIf="user$ |async as user; else login">
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['Inicio']">Inicio
           <span class="sr-only">(current)</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['Compras']">Mis Compras</a>
+        <a class="nav-link" [routerLink]="['crud']">{{user?.email}}</a>
       </li>
+      <li *ngIf="user" class="nav-item">
+        <a class="nav-link" (click)="onLogout()" [routerLink]="['/']">Logout</a>
+      </li>
+  
     </ul>
-    <div class="">
+
+    <!-- <div class="">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active"><a class="btn btn-success">Iniciar Sesion</a></li>
-        <li class="nav-item active"><a class="btn btn-info ml-3">Restrate</a></li>
+        <li class="nav-item active"><a class="btn btn-success" [routerLink]="['login']">Iniciar Sesion</a></li>
+        <li class="nav-item active"><a class="btn btn-info ml-3" [routerLink]="['register']">Restrate</a></li>
       </ul>
-    </div>
+    </div> -->
+
+    <ng-template #login>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active"><a class="btn btn-success" [routerLink]="['login']">Iniciar Sesion</a></li>
+        <li class="nav-item active"><a class="btn btn-info ml-3" [routerLink]="['register']">Restrate</a></li>
+      </ul>
+    </ng-template>
+
   </div>
 </nav>

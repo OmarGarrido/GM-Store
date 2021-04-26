@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './Componentes/home/home.component';
 import { NavbarComponent } from './Componentes/navbar/navbar.component';
 import { PagosComponent } from './Componentes/pagos/pagos.component';
-import { AyudaComponent } from './Componentes/ayuda/ayuda.component';
 import { PoliticasComponent } from './Componentes/politicas/politicas.component';
 import { FooterComponent } from './Componentes/footer/footer.component';
 
@@ -20,6 +19,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CrudComponent } from './Componentes/crud/crud.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { DetallesComponent } from './Componentes/detalles/detalles.component';
+import { LoginComponent } from './Auth/login/login.component';
+import { RegisterComponent } from './Auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -27,11 +28,12 @@ import { DetallesComponent } from './Componentes/detalles/detalles.component';
     HomeComponent,
     NavbarComponent,
     PagosComponent,
-    AyudaComponent,
     PoliticasComponent,
     FooterComponent,
     CrudComponent,
     DetallesComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

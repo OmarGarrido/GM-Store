@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from  "@angular/router";
 import { AngularFireAuth } from  "@angular/fire/auth";
-
+import firebase from "firebase/app";
+import 'firebase/auth'
 @Injectable({
   providedIn: 'root'
 })
@@ -11,6 +12,16 @@ export class AuthService {
     public afServ:AngularFireAuth,
     public router:Router
   ) { }
+
+  async loginGoogle() {
+    try {
+      //sintaxys nueva descubierta por mi
+       this.afServ.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      }
+    catch (error) {
+      console.log(error);
+    }
+  }
 
   async register(email:string, password:string){
     const result= await this.afServ.createUserWithEmailAndPassword(email,password);
@@ -29,4 +40,6 @@ export class AuthService {
     this.router.navigate(['home']);
     return result;
   }
+
+
 }
