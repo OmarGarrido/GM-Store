@@ -56,7 +56,7 @@ export class CrudComponent implements OnInit {
     this.idFirebaseUpdate = "";
 
     this.config = {
-      itemsPerPage: 5,
+      itemsPerPage: 10,
       currentPage: 1,
       totalItems: this.collection.data.length
     };

@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   data:any=[]
   id:any
   i:number
+  config: any
 
   constructor(
     private firebaseServ: FirebaseService,
@@ -22,6 +23,15 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    this.config = {
+      itemsPerPage: 10,
+      currentPage: 1,
+      totalItems: this.data.length
+    };
+  }
+
+  pageChanged(event) {
+    this.config.currentPage = event;
   }
 
   loadData(){

@@ -10,25 +10,34 @@ import { AuthService } from 'src/app/Servicios/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  public user$:Observable<any>=this.authServ.afServ.user;
+  usuario: any
+
+  public user$: Observable<any> = this.authServ.afServ.user;
 
   constructor(
-    private authServ:AuthService,
-    private router:Router
+    private authServ: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+
+    this.authServ.getUserCurrent().subscribe(user => {
+      if (user) {
+        console.log(user.displayName);
+      } else {
+        console.log("No estas logueado");
+      }
+    });
+
   }
 
-  async onLogout(){
-    try{
+  async onLogout() {
+    try {
       await this.authServ.logout();
       this.router.navigate(['login']);
     }
-    catch(error){
+    catch (error) {
       console.log(error);
     }
-    
   }
-
 }
