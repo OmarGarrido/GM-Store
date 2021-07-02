@@ -34,6 +34,19 @@ export class FirebaseService {
     return this.firestore.collection("Smartphone").snapshotChanges();
   }
 
+  // metodo alterno para cargar coleciones generico
+  getDoc<tipo>(path: string, id: string) {
+    const collection = this.firestore.collection<tipo>(path);
+    return collection.doc(id).valueChanges();
+    // return this.firestore.collection(path).snapshotChanges();
+  }
+
+  crearDoc(path:string, data:any, id:string){
+    const collection=this.firestore.collection(path);
+    return collection.doc(id).set(data);
+  }
+
+  // 
   createSmartphone(Smartphone: any) {
     return this.firestore.collection("Smartphone").add(Smartphone);
   }

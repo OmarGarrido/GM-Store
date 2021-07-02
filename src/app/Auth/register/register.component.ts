@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl } from '@angular/forms'
 import { Router } from '@angular/router';
+import { Usuario } from 'src/app/models';
 import { AuthService } from 'src/app/Servicios/auth.service';
 import { FirebaseService } from 'src/app/Servicios/firebase.service';
 
@@ -12,6 +13,14 @@ import { FirebaseService } from 'src/app/Servicios/firebase.service';
   providers: [AuthService]
 })
 export class RegisterComponent implements OnInit {
+
+  usuario: Usuario = {
+    nombre: '',
+    // apellidos: '',
+    // telefono: '',
+    // direccion: '',
+    uid: '',
+  }
 
   registerForm = new FormGroup({
     email: new FormControl(''),
@@ -37,14 +46,21 @@ export class RegisterComponent implements OnInit {
 
   async onRegister() {
     const { email, password } = this.registerForm.value;
-    const {nombre, apellidos}= this.registerForm.value;
+    const { nombre, apellidos } = this.registerForm.value;
     try {
       const user = await this.autServ.register(email, password);
       if (user) {
 
         user.user.updateProfile({
-          displayName: nombre+' '+apellidos
+          displayName: nombre + ' ' + apellidos
         })
+
+        
+        this.usuario={
+          nombre: nombre + ' ' + apellidos,
+          uid: user.user.uid
+        };
+        this.fireServ.crearDoc('Usuarios', this.usuario, this.usuario.uid);
 
         //redireccionar a:
         this.router.navigate(['login']);
