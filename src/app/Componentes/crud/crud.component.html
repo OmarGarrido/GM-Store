@@ -2,29 +2,32 @@
     <table class="table table-hover" style="min-height: 57.7vh;">
         <thead>
             <tr class="table-primary">
-                <th>Marca</th>
+                <th>Modelo</th>
                 <th>Descripcion</th>
-                <th>Precio</th>
                 <th>Procesador</th>
                 <th>Camara</th>
                 <th>Almacenamiento</th>
+                <th>Precio</th>
+                <th>Existencias</th>
                 <th>Calificacion</th>
                 <th>Operiaciones</th>
             </tr>
         </thead>
         <tbody>
             <tr class="table" *ngFor="let item of collection.data | paginate: config">
-                <td style="text-transform: capitalize; text-align: justify;"><img class="img-fluid" [src]="item.url" style="width: 50px;   margin-right: 1rem;">{{item.marca}}</td>
-                <td style="text-transform: capitalize;" >{{item.descripcion}}</td>
-                <td>${{item.precio}}</td>
+                <td style="text-transform: capitalize; text-align: justify;"><img class="img-fluid" [src]="item.url"
+                        style="width: 50px;   margin-right: 1rem;">{{item.modelo}}</td>
+                <td style="text-transform: capitalize;">{{item.descripcion}}</td>
                 <td>{{item.procesador}}</td>
                 <td>{{item.camara}}</td>
                 <td>{{item.almacenamiento}}</td>
+                <td>${{item.precio|number}}</td>
+                <td>{{item.existencias|number}}</td>
                 <td>{{item.calificacion}}</td>
-                
+
                 <td>
                     <!-- <button type="button" class="btn btn-danger" (click)="eliminar(item)">Eliminar</button> -->
-                    <button type="button" class="btn btn-primary" (click)="editarMaterial(content,item)">Editar</button>
+                    <button type="button" class="btn btn-primary" (click)="editar(content,item)">Editar</button>
                 </td>
             </tr>
         </tbody>
@@ -44,18 +47,13 @@
                 <div class="form-group">
                     <form [formGroup]="SmartphoneForm">
                         <div class="form-group">
-                            <strong><label for="">Marca</label></strong>
-                            <input type="text" formControlName="marca" class="form-control">
+                            <strong><label for="">Modelo</label></strong>
+                            <input type="text" formControlName="modelo" class="form-control">
                         </div>
 
                         <div class="form-group">
                             <strong><label for="">Descripcion</label></strong>
                             <textarea formControlName="descripcion" class="form-control"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <strong><label for="">Precio</label></strong>
-                            <input type="number" formControlName="precio" class="form-control">
                         </div>
 
                         <div class="form-group">
@@ -74,8 +72,19 @@
                         </div>
 
                         <div class="form-group">
+                            <strong><label for="">Precio</label></strong>
+                            <input type="number" formControlName="precio" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <strong><label for="">Existencia</label></strong>
+                            <input type="number" formControlName="existencias" class="form-control">
+                        </div>
+
+
+                        <div class="form-group">
                             <strong><label for="">Calificacion</label></strong>
-                            <input type="text" formControlName="calificacion" class="form-control">
+                            <input type="number" max="5" formControlName="calificacion" class="form-control">
                         </div>
 
                         <div class="form-group">
@@ -101,6 +110,6 @@
         </div>
     </ng-template>
 
-    <button type="button" class="btn btn-primary" (click)="nuevoMaterial(content)">Añadir Nuevo Smartphone</button>
+    <button type="button" class="btn btn-primary" (click)="nuevo(content)">Añadir Nuevo Smartphone</button>
 
 </div>

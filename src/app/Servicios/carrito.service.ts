@@ -37,7 +37,7 @@ export class CarritoService {
       // console.log(res);
       if (res) {
         this.pedido = res;
-        console.log('hay Productos en Carrito');
+        console.log('hay Productos en Carrito-> ');
 
       } else {
         console.log('no hay nada en carrito');
@@ -103,6 +103,25 @@ export class CarritoService {
   }
 
   removeProducto(producto: Producto) {
+    if (this.uid.length) {
+      let posicion = 0;
+      const item = this.pedido.producto.find((productosPedido, index) => {
+        posicion = index;
+        return (productosPedido.producto.idFirebase === producto.idFirebase)
+      });
+
+      if (item) {
+        item.cantidad--;
+        if (item.cantidad == 0) {
+          this.pedido.producto.splice(posicion, 1);
+        }
+      }
+      const path = 'Usuarios/' + this.uid + '/' + this.path;
+      this.fireBase.crearDoc(path, this.pedido, this.uid).then(() => {
+        console.log('eliminado con exito');
+
+      });
+    }
 
   }
 

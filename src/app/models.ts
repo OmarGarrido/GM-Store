@@ -1,3 +1,17 @@
+export interface Smartphone {
+    marca: string;
+    modelo: string;
+    descripcion: string;
+    procesador: string;
+    camara: string;
+    almacenamiento: string;
+    precio: number;
+    existencias: number;
+    colores: string[];
+    calificacion: number;
+    url: string;
+    idFirebase: string;
+}
 export interface Usuario {
     nombre: string;
     // apellidos: string;
@@ -10,15 +24,15 @@ export interface PedidoCarrito {
     id: string;
     usuario: Usuario;
     producto: ProductoPedido[];
-    precioTotal:number
+    precioTotal: number
     estado: EstadoPedido
 
 }
 
 
-export interface ProductoPedido{
+export interface ProductoPedido {
     producto: Producto;
-    cantidad:number;
+    cantidad: number;
 }
 
 export interface Producto {
@@ -30,9 +44,9 @@ export interface Producto {
     // camara: string;
     // rom: number;
     // ram:number
-    // calificacion: number;
+    calificacion: number;
     url: string;
     idFirebase: string;
 }
 
-export type EstadoPedido='Enviado'|'En Camino'|'Entregado'|'En Proceso de Envio'
+export type EstadoPedido = 'Enviado' | 'En Camino' | 'Entregado' | 'En Proceso de Envio'

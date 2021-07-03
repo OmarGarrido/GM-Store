@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'Pagos/:smart', component: PagosComponent },
   {path:'detalles/:smart',component:DetallesComponent},
-  { path: '**', pathMatch: 'full', redirectTo: 'Inicio' },
+  { path: '**', pathMatch: 'full', redirectTo: 'login' },
 
 ];
 

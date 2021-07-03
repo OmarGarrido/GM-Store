@@ -13,6 +13,8 @@ import { FirebaseService } from 'src/app/Servicios/firebase.service';
 export class HomeComponent implements OnInit {
 
   carrito: any = {}
+  smart: any = []
+
   producto: Producto;
 
   data: any = []
@@ -58,6 +60,7 @@ export class HomeComponent implements OnInit {
       marca: smartphone.marca,
       modelo: smartphone.marca,
       precio: smartphone.precio,
+      calificacion: smartphone.calificacion,
       url: smartphone.url,
       idFirebase: smartphone.idFirebase
     }
@@ -84,14 +87,17 @@ export class HomeComponent implements OnInit {
             idFirebase: e.payload.doc.id,
           }
         })
+        this.smart = this.data
+        // console.log('cargando celulares ', this.smart);
       }
     )
-
   }
 
-  verSmartphone(item: any) {
+  modificar(){}
+
+  verSmartphone(item: any) {    
     this.firebaseServ.sendObjectSorce(item)
-    this.router.navigate(['detalles', item.marca])
+    this.router.navigate(['detalles', item.idFirebase])
   }
 
 }

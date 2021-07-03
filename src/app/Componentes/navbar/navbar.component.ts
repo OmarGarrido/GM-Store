@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { PedidoCarrito, Producto, ProductoPedido } from 'src/app/models';
 import { AuthService } from 'src/app/Servicios/auth.service';
+import { CarritoService } from 'src/app/Servicios/carrito.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,13 +12,21 @@ import { AuthService } from 'src/app/Servicios/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  usuario: any
+  usuario: any;
+  pedidos: PedidoCarrito;
+  articulos: any[];
+  total: number;
+
+  public isMenuCollapsed = true;
+  public isCollapsed = true;
+
 
   public user$: Observable<any> = this.authServ.afServ.user;
 
   constructor(
     private authServ: AuthService,
-    private router: Router
+    private router: Router,
+    private carritoServ: CarritoService
   ) { }
 
   ngOnInit(): void {
@@ -29,6 +39,21 @@ export class NavbarComponent implements OnInit {
       }
     });
 
+  }
+
+  add(producto: Producto) {
+    this.carritoServ.addProducto(producto);
+    this.cargarCarrito();
+  }
+
+  delete(producto:Producto){
+    this.carritoServ.removeProducto(producto);
+    this.cargarCarrito();
+  }
+
+  cargarCarrito() {
+    this.pedidos = this.carritoServ.getCarrito();
+    this.articulos = this.pedidos.producto
   }
 
   async onLogout() {

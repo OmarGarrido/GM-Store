@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireStorage} from '@angular/fire/storage';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -62,12 +62,13 @@ export class CrudComponent implements OnInit {
     };
 
     this.SmartphoneForm = this.fb.group({
-      marca: ['', Validators.required],
+      modelo: ['', Validators.required],
       descripcion: ['', Validators.required],
-      precio: ['', Validators.required],
       procesador: ['', Validators.required],
       camara: ['', Validators.required],
       almacenamiento: ['', Validators.required],
+      precio: ['', Validators.required],
+      existencias: ['', Validators.required],
       calificacion: ['', Validators.required],
       url: ['', Validators.required]
     });
@@ -76,14 +77,15 @@ export class CrudComponent implements OnInit {
       resp => {
         this.collection.data = resp.map((e: any) => {
           return {
-            marca: e.payload.doc.data().marca,
+            modelo: e.payload.doc.data().modelo,
             descripcion: e.payload.doc.data().descripcion,
-            precio: e.payload.doc.data().precio,
             procesador: e.payload.doc.data().procesador,
             camara: e.payload.doc.data().camara,
             almacenamiento: e.payload.doc.data().almacenamiento,
+            precio: e.payload.doc.data().precio,
+            existencias: e.payload.doc.data().existencias,
             calificacion: e.payload.doc.data().calificacion,
-            url:e.payload.doc.data().url,
+            url: e.payload.doc.data().url,
             idFirebase: e.payload.doc.id
           }
         })
@@ -136,20 +138,21 @@ export class CrudComponent implements OnInit {
 
 
   //esto es codigo del modal
-  editarMaterial(content, item: any) {
+  editar(content, item: any) {
     this.updSave = true;
     //llenando formulario con los datos a editar
     this.SmartphoneForm.setValue({
-      marca: item.marca,
+      modelo: item.modelo,
       descripcion: item.descripcion,
-      precio: item.precio,
       procesador: item.procesador,
       camara: item.camara,
       almacenamiento: item.almacenamiento,
+      precio: item.precio,
+      existencias: item.existencias,
       calificacion: item.calificacion,
       url: item.url
     });
-    this.idFirebaseUpdate =item.idFirebase;
+    this.idFirebaseUpdate = item.idFirebase;
     console.log(this.idFirebaseUpdate)    //**//
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -158,7 +161,7 @@ export class CrudComponent implements OnInit {
     });
   }
 
-  nuevoMaterial(content) {
+  nuevo(content) {
     this.updSave = false;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;

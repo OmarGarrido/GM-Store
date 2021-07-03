@@ -1,36 +1,61 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
   <!-- <a class="navbar-brand" href="#">Navbar</a> -->
   <a [routerLink]="['Inicio']">
     <img class="navbar-brand mb-2 ml-3" style="width: 200px;"
       src="https://fontmeme.com/permalink/210424/67fbe406248fc7f82344efafd26b5ccb.png">
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
-    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarColor01">
+  <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav ml-auto mr-3" *ngIf="user$ |async as user; else login" id="lista1">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['Inicio']">Inicio
-          <span class="sr-only">(current)</span>
-        </a>
+        <a class="nav-link" [routerLink]="['Inicio']" (click)="isMenuCollapsed=true">Inicio</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['crud']">{{user?.displayName}}</a>
-      </li>
-      <li *ngIf="user" class="nav-item">
-        <a class="nav-link" (click)="onLogout()" [routerLink]="['/']">Logout</a>
-      </li>
-  
-    </ul>
 
-    <!-- <div class="">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active"><a class="btn btn-success" [routerLink]="['login']">Iniciar Sesion</a></li>
-        <li class="nav-item active"><a class="btn btn-info ml-3" [routerLink]="['register']">Restrate</a></li>
-      </ul>
-    </div> -->
+      <!-- para dropDown y collapse visitar ng-bootstrap porque es directiva como routerLink -->
+      <li class="nav-item " ngbDropdown>
+        <a class="nav-link" [routerLink] ngbDropdownToggle>{{user?.displayName}}</a>
+        <div ngbDropdownMenu>
+          <a class="dropdown-item" [routerLink]="['crud']">Admin</a>
+          <a class="dropdown-item" (click)="onLogout()" [routerLink]>Logout</a>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" (click)="collapse.toggle()" (click)="cargarCarrito()">
+          <i class="fas fa-cart-plus fa-2x"></i>
+        </a>
+        <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+          <div class="card white-text bg-secondary">
+            <div class="card-body">
+              <div class="container">
+                <div *ngFor="let pedido of articulos" class="row">
+                  <div class="col-auto" style="display: inline-flex;">
+                    <img [src]="pedido.producto.url" style="margin: 5px; height: 60px; width: 60px;">
+                    <p style="margin-left: 25px; margin-top: 15px; width: 150px;">{{pedido.producto.marca}}</p>
+                    <p class="ms-5" style="margin-top: 15px; display: inline-flex; width: 80px;">
+                      ${{pedido.producto.precio|number}}</p>
+                  </div>
+                  <div class="col-auto">
+                    <button class="btn btn-success mt-2 me-2" style="border-radius: 70px;" (click)="add(pedido.producto)"><i
+                        class="fas fa-plus"></i></button>
+                    <input style="width: 60px;" min="0" readonly="true" type="number" class="btn mt-2"
+                      [value]="pedido.cantidad">
+                    <button class="btn btn-danger mt-2" style="border-radius: 70px;" (click)="delete(pedido.producto)"><i
+                        class="fas fa-minus"></i></button>
+                  </div>
+                </div>
+                <hr>
+                <p style="text-align: right;">Total: </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+    </ul>
 
     <ng-template #login>
       <ul class="navbar-nav ml-auto mr-3" id="lista2">
