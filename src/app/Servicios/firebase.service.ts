@@ -35,7 +35,7 @@ export class FirebaseService {
   }
 
   getSmartphone() {
-    return this.firestore.collection("Smartphone").snapshotChanges();
+    return this.firestore.collection("Smartphone2").snapshotChanges();
   }
 
   // metodo alterno para cargar coleciones generico
@@ -60,19 +60,19 @@ export class FirebaseService {
 
   // 
   createSmartphone(Smartphone: any) {
-    return this.firestore.collection("Smartphone").add(Smartphone);
+    return this.firestore.collection("Smartphone2").add(Smartphone);
   }
 
   updateSmartphone(id: any, Smartphone: any) {
-    return this.firestore.collection("Smartphone").doc(id).update(Smartphone);
+    return this.firestore.collection("Smartphone2").doc(id).update(Smartphone);
   }
 
   eliminarSmartphone(id: any) {
-    return this.firestore.collection("Smartphone").doc(id).delete();
+    return this.firestore.collection("Smartphone2").doc(id).delete();
   }
 
   agregarUrl(Smartphone: any) {
-    return this.firestore.collection("Smartphone").doc(Smartphone.id).update(Smartphone.url);
+    return this.firestore.collection("Smartphone2").doc(Smartphone.id).update(Smartphone.url);
   }
 
 

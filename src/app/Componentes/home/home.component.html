@@ -22,5 +22,29 @@
         </div>
         <!-- </a> -->
     </div>
+
+    <div class="col-auto" style="margin-left: 3em;" *ngFor="let item of data2">
+        <!-- <a type="button" class="" (click)="verSmartphone(item)"> -->
+        <div class="card" style="width: 13rem;height: 25rem; margin-top: 2em;">
+            <img class="card card-img-top" [src]="item.url" style="width: 13rem; height: 13rem;">
+            <a class="carrito" type="button" (click)="agregarCarrito(item)">
+                <i class="fas fa-cart-plus fa-2x"></i>
+            </a>
+            <div class="card-body">
+                <p class="card-text" style="text-transform: capitalize;">{{item.marca}}</p>
+                <div style="color: orange; font-size: larger;">
+                    <ngb-rating [max]="5" [(rate)]="item.calificacion" [readonly]="true"></ngb-rating>
+                </div>
+                <!-- <p class="card-text" style="text-transform: capitalize;">{{item.calificacion}}</p> -->
+                <p class="card-text mt-3" style="text-transform: capitalize;"><strong>$
+                        {{item.precio|number}}</strong></p>
+
+
+            </div>
+            <div class="card-footer"><button class="btn btn-primary btn-block" (click)="verSmartphone(item)">ver
+                    mas...</button></div>
+        </div>
+        <!-- </a> -->
+    </div>
 </div>
 <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>

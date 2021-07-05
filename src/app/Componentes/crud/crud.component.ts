@@ -16,6 +16,7 @@ export class CrudComponent implements OnInit {
 
   collection = { data: [] }
   collection2 = { data: [] }
+  array: any
   SmartphoneForm: FormGroup;
   accesorioForm: FormGroup;
   idFirebaseUpdate: string;
@@ -134,11 +135,16 @@ export class CrudComponent implements OnInit {
             url: e.payload.doc.data().url,
             idFirebase: e.payload.doc.id
           }
-        })
+        }
+        )
+        this.array = this.collection.data.concat(this.collection2.data)
+        console.log(this.array);
+
       },
       error => {
         console.error(error);
       }
+
     );
 
 
@@ -203,7 +209,7 @@ export class CrudComponent implements OnInit {
     //!isNullOrUndefined(this.idFirebaseUpdate)
     if (this.idFirebaseUpdate != null) {
       this.SmartphoneForm.value.url = url;
-      this.fibaseService.updateArticulo("Smartphone", this.idFirebaseUpdate, this.SmartphoneForm.value).then(resp => {
+      this.fibaseService.updateArticulo("Smartphone2", this.idFirebaseUpdate, this.SmartphoneForm.value).then(resp => {
         this.SmartphoneForm.reset();
         this.modalService.dismissAll();
         this.urlImage = new Observable;
@@ -217,7 +223,7 @@ export class CrudComponent implements OnInit {
 
 
   //esto es codigo del modal
-  editar(content, item: any) {
+  editar(content, content2, item: any) {
     this.updSave = true;
     if (item.etiqueta == "Smartphone") {
       //llenando formulario con los datos a editar
@@ -234,6 +240,12 @@ export class CrudComponent implements OnInit {
         calificacion: item.calificacion,
         url: item.url
       });
+
+      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
     } else {
       this.accesorioForm.setValue({
         marca: item.marca,
@@ -245,14 +257,15 @@ export class CrudComponent implements OnInit {
         calificacion: item.calificacion,
         url: item.url
       });
+      //**//
+      this.modalService.open(content2, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
     }
     this.idFirebaseUpdate = item.idFirebase;
-    console.log(this.idFirebaseUpdate)    //**//
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    console.log(this.idFirebaseUpdate)
   }
 
   nuevo(content) {
@@ -266,6 +279,8 @@ export class CrudComponent implements OnInit {
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
+      this.SmartphoneForm.reset();
+      this.accesorioForm.reset();
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';

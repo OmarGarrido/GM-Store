@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="table" *ngFor="let item of collection.data| paginate: config">
+            <tr class="table" *ngFor="let item of array| paginate: config">
                 <td>{{item.marca}}</td>
                 <td style="text-transform: capitalize; text-align: justify;"><img class="img-fluid" [src]="item.url"
                         style="width: 50px;   margin-right: 1rem;">{{item.modelo}}</td>
@@ -31,7 +31,8 @@
 
                 <td>
                     <button type="button" class="btn btn-danger" (click)="eliminar(item)">Eliminar</button>
-                    <button type="button" class="btn btn-primary" (click)="editar(content,item)">Editar</button>
+                    <button type="button" class="btn btn-primary"
+                        (click)="editar(content,content2,item)">Editar</button>
                 </td>
             </tr>
         </tbody>
@@ -118,7 +119,8 @@
         <div class="modal-footer">
             <button *ngIf="updSave==false && urlImage|async as url" type="button" class="btn btn-success"
                 (click)="guardarSmartphone(url)">Guardar</button>
-            <button *ngIf="updSave==true && urlImage|async as url" type="button" class="btn btn-info" (click)="actualizarSmartphone(url)">Actualizar</button>
+            <button *ngIf="updSave==true && urlImage|async as url" type="button" class="btn btn-info"
+                (click)="actualizarSmartphone(url)">Actualizar</button>
         </div>
     </ng-template>
 
@@ -187,7 +189,8 @@
         <div class="modal-footer">
             <button *ngIf="updSave==false && urlImage|async as url" type="button" class="btn btn-success"
                 (click)="guardarAccesorio(url)">Guardar</button>
-            <button *ngIf="updSave==true && urlImage|async as url" type="button" class="btn btn-info" (click)="actualizarAccesorio(url)">Actualizar</button>
+            <button *ngIf="updSave==true && urlImage|async as url" type="button" class="btn btn-info"
+                (click)="actualizarAccesorio(url)">Actualizar</button>
         </div>
     </ng-template>
 

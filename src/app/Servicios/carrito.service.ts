@@ -37,7 +37,7 @@ export class CarritoService {
       // console.log(res);
       if (res) {
         this.pedido = res;
-        console.log('hay Productos en Carrito-> ');
+        console.log('hay Productos en Carrito-> ',res);
 
       } else {
         console.log('no hay nada en carrito');
