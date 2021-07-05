@@ -8,6 +8,20 @@ export interface Smartphone {
     precio: number;
     existencias: number;
     colores: string[];
+    etiqueta:string;
+    calificacion: number;
+    url: string;
+    idFirebase: string;
+}
+
+export interface Accesorio{
+    marca: string;
+    modelo: string;
+    descripcion: string;
+    precio: number;
+    existencias: number;
+    colores: string[];
+    etiqueta:string;
     calificacion: number;
     url: string;
     idFirebase: string;

@@ -1,0 +1,7 @@
+.descripcion {
+    width: 400px;
+    text-align: justify;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

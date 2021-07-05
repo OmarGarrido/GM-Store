@@ -15,9 +15,14 @@ import { FirebaseService } from 'src/app/Servicios/firebase.service';
 export class CrudComponent implements OnInit {
 
   collection = { data: [] }
+  collection2 = { data: [] }
   SmartphoneForm: FormGroup;
+  accesorioForm: FormGroup;
   idFirebaseUpdate: string;
   updSave: boolean;
+
+  urrAux: string
+
   config: any
   closeResult = "";
 
@@ -61,7 +66,20 @@ export class CrudComponent implements OnInit {
       totalItems: this.collection.data.length
     };
 
+    //
+    this.accesorioForm = this.fb.group({
+      marca: ['', Validators.required],
+      modelo: ['', Validators.required],
+      descripcion: ['', Validators.required],
+      precio: ['', Validators.required],
+      existencias: ['', Validators.required],
+      etiqueta: ['', Validators.required],
+      calificacion: ['', Validators.required],
+      url: ['', Validators.required]
+    });
+    //
     this.SmartphoneForm = this.fb.group({
+      marca: ['', Validators.required],
       modelo: ['', Validators.required],
       descripcion: ['', Validators.required],
       procesador: ['', Validators.required],
@@ -69,6 +87,7 @@ export class CrudComponent implements OnInit {
       almacenamiento: ['', Validators.required],
       precio: ['', Validators.required],
       existencias: ['', Validators.required],
+      etiqueta: ['', Validators.required],
       calificacion: ['', Validators.required],
       url: ['', Validators.required]
     });
@@ -77,13 +96,40 @@ export class CrudComponent implements OnInit {
       resp => {
         this.collection.data = resp.map((e: any) => {
           return {
+            marca: e.payload.doc.data().marca,
             modelo: e.payload.doc.data().modelo,
+            colores: e.payload.doc.data().colores,
             descripcion: e.payload.doc.data().descripcion,
             procesador: e.payload.doc.data().procesador,
             camara: e.payload.doc.data().camara,
             almacenamiento: e.payload.doc.data().almacenamiento,
             precio: e.payload.doc.data().precio,
             existencias: e.payload.doc.data().existencias,
+            etiqueta: e.payload.doc.data().etiqueta,
+            calificacion: e.payload.doc.data().calificacion,
+            url: e.payload.doc.data().url,
+            idFirebase: e.payload.doc.id
+          }
+        })
+        // console.log(this.collection.data);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+
+    //
+    this.fibaseService.getCollections("Accesorios").subscribe(
+      resp => {
+        this.collection2.data = resp.map((e: any) => {
+          return {
+            marca: e.payload.doc.data().marca,
+            modelo: e.payload.doc.data().modelo,
+            colores: e.payload.doc.data().colores,
+            descripcion: e.payload.doc.data().descripcion,
+            precio: e.payload.doc.data().precio,
+            existencias: e.payload.doc.data().existencias,
+            etiqueta: e.payload.doc.data().etiqueta,
             calificacion: e.payload.doc.data().calificacion,
             url: e.payload.doc.data().url,
             idFirebase: e.payload.doc.id
@@ -94,7 +140,11 @@ export class CrudComponent implements OnInit {
         console.error(error);
       }
     );
+
+
+
   }
+
 
   pageChanged(event) {
     this.config.currentPage = event;
@@ -105,7 +155,21 @@ export class CrudComponent implements OnInit {
 /*   this.collection.data.pop(item);
  */};
 
-  guardar(url: string) {
+  guardarAccesorio(url: string) {
+    this.accesorioForm.value.url = url;
+    this.fibaseService.createArticulo("Accesorios", this.accesorioForm.value).
+      then(resp => {
+        this.accesorioForm.reset();
+        this.modalService.dismissAll();
+        this.urlImage = new Observable;
+      })
+      .catch(error => {
+        console.error(error);
+
+      })
+  }
+
+  guardarSmartphone(url: string) {
     this.SmartphoneForm.value.url = url;
     this.fibaseService.createSmartphone(this.SmartphoneForm.value).
       then(resp => {
@@ -118,13 +182,28 @@ export class CrudComponent implements OnInit {
 
       })
 
-  };
+  }
 
-  actualizar(url: string) {
+  actualizarAccesorio(url: string) {
+    if (this.idFirebaseUpdate != null) {
+      this.accesorioForm.value.url = url;
+      this.fibaseService.updateArticulo("Accesorios", this.idFirebaseUpdate, this.accesorioForm.value).then(resp => {
+        this.accesorioForm.reset();
+        this.modalService.dismissAll();
+        this.urlImage = new Observable;
+      })
+        .catch(error => {
+          console.error(error);
+
+        });
+    }
+  }
+
+  actualizarSmartphone(url: string) {
     //!isNullOrUndefined(this.idFirebaseUpdate)
     if (this.idFirebaseUpdate != null) {
       this.SmartphoneForm.value.url = url;
-      this.fibaseService.updateSmartphone(this.idFirebaseUpdate, this.SmartphoneForm.value).then(resp => {
+      this.fibaseService.updateArticulo("Smartphone", this.idFirebaseUpdate, this.SmartphoneForm.value).then(resp => {
         this.SmartphoneForm.reset();
         this.modalService.dismissAll();
         this.urlImage = new Observable;
@@ -140,18 +219,33 @@ export class CrudComponent implements OnInit {
   //esto es codigo del modal
   editar(content, item: any) {
     this.updSave = true;
-    //llenando formulario con los datos a editar
-    this.SmartphoneForm.setValue({
-      modelo: item.modelo,
-      descripcion: item.descripcion,
-      procesador: item.procesador,
-      camara: item.camara,
-      almacenamiento: item.almacenamiento,
-      precio: item.precio,
-      existencias: item.existencias,
-      calificacion: item.calificacion,
-      url: item.url
-    });
+    if (item.etiqueta == "Smartphone") {
+      //llenando formulario con los datos a editar
+      this.SmartphoneForm.setValue({
+        marca: item.marca,
+        modelo: item.modelo,
+        descripcion: item.descripcion,
+        procesador: item.procesador,
+        camara: item.camara,
+        almacenamiento: item.almacenamiento,
+        precio: item.precio,
+        existencias: item.existencias,
+        etiqueta: item.etiqueta,
+        calificacion: item.calificacion,
+        url: item.url
+      });
+    } else {
+      this.accesorioForm.setValue({
+        marca: item.marca,
+        modelo: item.modelo,
+        descripcion: item.descripcion,
+        precio: item.precio,
+        existencias: item.existencias,
+        etiqueta: item.etiqueta,
+        calificacion: item.calificacion,
+        url: item.url
+      });
+    }
     this.idFirebaseUpdate = item.idFirebase;
     console.log(this.idFirebaseUpdate)    //**//
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {

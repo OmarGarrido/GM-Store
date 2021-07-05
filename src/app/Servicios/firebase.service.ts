@@ -30,8 +30,12 @@ export class FirebaseService {
     this.objecjSorce.next(data);
   }
 
+  getCollections(path: string) {
+    return this.firestore.collection(path).snapshotChanges();
+  }
+
   getSmartphone() {
-    return this.firestore.collection("Smartphone2").snapshotChanges();
+    return this.firestore.collection("Smartphone").snapshotChanges();
   }
 
   // metodo alterno para cargar coleciones generico
@@ -41,26 +45,34 @@ export class FirebaseService {
     // return this.firestore.collection(path).snapshotChanges();
   }
 
-  crearDoc(path:string, data:any, id:string){
-    const collection=this.firestore.collection(path);
+  crearDoc(path: string, data: any, id: string) {
+    const collection = this.firestore.collection(path);
     return collection.doc(id).set(data);
+  }
+
+  updateArticulo(path: string, id: any, Smartphone: any) {
+    return this.firestore.collection(path).doc(id).update(Smartphone);
+  }
+
+  createArticulo(path: string, item: any) {
+    return this.firestore.collection(path).add(item);
   }
 
   // 
   createSmartphone(Smartphone: any) {
-    return this.firestore.collection("Smartphone2").add(Smartphone);
+    return this.firestore.collection("Smartphone").add(Smartphone);
   }
 
   updateSmartphone(id: any, Smartphone: any) {
-    return this.firestore.collection("Smartphone2").doc(id).update(Smartphone);
+    return this.firestore.collection("Smartphone").doc(id).update(Smartphone);
   }
 
   eliminarSmartphone(id: any) {
-    return this.firestore.collection("Smartphone2").doc(id).delete();
+    return this.firestore.collection("Smartphone").doc(id).delete();
   }
 
   agregarUrl(Smartphone: any) {
-    return this.firestore.collection("Smartphone2").doc(Smartphone.id).update(Smartphone.url);
+    return this.firestore.collection("Smartphone").doc(Smartphone.id).update(Smartphone.url);
   }
 
 
