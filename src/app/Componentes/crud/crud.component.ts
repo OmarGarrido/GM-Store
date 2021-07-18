@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable, pipe, Subscription } from 'rxjs';
@@ -22,6 +23,8 @@ export class CrudComponent implements OnInit {
   idFirebaseUpdate: string;
   updSave: boolean;
 
+  admin: any;
+
   urrAux: string
 
   config: any
@@ -36,7 +39,11 @@ export class CrudComponent implements OnInit {
     public fb: FormBuilder,
     private modalService: NgbModal,
     private fibaseService: FirebaseService,
-    private readonly storage: AngularFireStorage) { }
+    private readonly storage: AngularFireStorage,
+    private router: Router,
+    ) {
+
+  }
 
   onUpload(e) {
     /* console.log(e.target.files[0]); */
@@ -59,6 +66,14 @@ export class CrudComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.fibaseService.$getObjecjtSorce.subscribe(resp => this.admin = resp).unsubscribe();
+    console.log('es admin? ', this.admin);
+
+    if (this.admin != true) {
+      this.router.navigate(['Inicio'])
+    }
+
     this.idFirebaseUpdate = "";
 
     this.config = {
@@ -120,7 +135,7 @@ export class CrudComponent implements OnInit {
     );
 
     //
-    this.fibaseService.getCollections("Accesorios").subscribe(
+    this.fibaseService.getAccesorios().subscribe(
       resp => {
         this.collection2.data = resp.map((e: any) => {
           return {
@@ -138,7 +153,7 @@ export class CrudComponent implements OnInit {
         }
         )
         this.array = this.collection.data.concat(this.collection2.data)
-        console.log(this.array);
+        // console.log(this.array);
 
       },
       error => {

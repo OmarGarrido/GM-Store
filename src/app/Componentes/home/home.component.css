@@ -8,3 +8,6 @@
     opacity: 90%;
     /* background-size:cover; */
 }
+.ngx-pagination .current{
+    background: #375a7f;
+}

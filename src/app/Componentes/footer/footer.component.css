@@ -1,4 +1,4 @@
-ul{
+ul {
     list-style: none;
     display: flex;
     flex-direction: row;
@@ -7,8 +7,14 @@ ul{
     padding: 0;
 }
 
-.direccion{
+.direccion {
     padding: 10px 0px 0px;
     text-align: center;
     margin: 0;
 }
+
+/* .footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+} */

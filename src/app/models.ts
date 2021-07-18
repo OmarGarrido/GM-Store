@@ -20,7 +20,6 @@ export interface Accesorio{
     descripcion: string;
     precio: number;
     existencias: number;
-    colores: string[];
     etiqueta:string;
     calificacion: number;
     url: string;

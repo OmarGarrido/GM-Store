@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
 import { Producto, PedidoCarrito, Usuario, ProductoPedido } from '../models';
 import { AuthService } from './auth.service';
 import { FirebaseService } from './firebase.service';
@@ -10,6 +11,7 @@ import { FirebaseService } from './firebase.service';
 export class CarritoService {
 
   private pedido: PedidoCarrito;
+  private pedido$ = new Subject<PedidoCarrito>();
   private usuario: Usuario;
 
   path = 'carrito/';
@@ -21,6 +23,7 @@ export class CarritoService {
     public router: Router
   ) {
 
+    this.initCarrito();
     this.fireAuth.getUserCurrent().subscribe(res => {
       if (res) {
         this.uid = res.uid;
@@ -31,16 +34,24 @@ export class CarritoService {
 
   }
 
+  getUid() {
+    this.fireAuth.getUserCurrent().subscribe(res => {
+      this.uid = res.uid;
+    })
+    return this.uid
+  }
+
   loadCarrito() {
     const path = 'Usuarios/' + this.uid + '/' + this.path;
     this.fireBase.getDoc<PedidoCarrito>(path, this.uid).subscribe(res => {
       // console.log(res);
       if (res) {
         this.pedido = res;
-        console.log('hay Productos en Carrito-> ',res);
+        this.pedido$.next(this.pedido);
+        // console.log('hay Productos en Carrito-> ', this.pedido);
 
       } else {
-        console.log('no hay nada en carrito');
+        // console.log('no hay nada en carrito');
         this.initCarrito();
       }
 
@@ -54,7 +65,8 @@ export class CarritoService {
       producto: [],
       precioTotal: null,
       estado: 'Enviado',
-    }
+    };
+    this.pedido$.next(this.pedido);
   }
 
   loadCliente() {
@@ -87,7 +99,8 @@ export class CarritoService {
         this.pedido.producto.push(pedido)
       }
     } else {
-      this.router.navigate(['register']);
+      this.router.navigate(['login']);
+      return
     }
     // console.log('en add pedido-> ', this.pedido);
     const path = 'Usuarios/' + this.uid + '/' + this.path;
@@ -98,8 +111,11 @@ export class CarritoService {
 
   }
 
-  getCarrito() {
-    return this.pedido
+  getCarrito(): Observable<PedidoCarrito> {
+    setTimeout(()=>{
+      this.pedido$.next(this.pedido);
+    },250)
+    return this.pedido$.asObservable();
   }
 
   removeProducto(producto: Producto) {
@@ -130,6 +146,9 @@ export class CarritoService {
   }
 
   clearCarrito() {
-
+    const path = 'Usuarios/' + this.uid + '/' + this.path;
+    this.fireBase.deleteDoc(path, this.uid).then(() => {
+      this.initCarrito();
+    })
   }
 }

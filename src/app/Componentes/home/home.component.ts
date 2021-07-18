@@ -17,10 +17,18 @@ export class HomeComponent implements OnInit {
 
   data: any = []
   data2: any = []
+  combinado: any
 
   id: any
   i: number
   config: any
+
+  lista: string[] = ["MXN", "USD", "EUR"];
+  dolar: number;
+  precio: number;
+  mxn: number;
+  euro: number;
+  opt: string;
 
   constructor(
     private firebaseServ: FirebaseService,
@@ -55,14 +63,14 @@ export class HomeComponent implements OnInit {
     this.config.currentPage = event;
   }
 
-  agregarCarrito(smartphone: any) {
+  agregarCarrito(producto: any) {
     this.producto = {
-      marca: smartphone.marca,
-      modelo: smartphone.marca,
-      precio: smartphone.precio,
-      calificacion: smartphone.calificacion,
-      url: smartphone.url,
-      idFirebase: smartphone.idFirebase
+      marca: producto.marca,
+      modelo: producto.modelo,
+      precio: producto.precio,
+      calificacion: producto.calificacion,
+      url: producto.url,
+      idFirebase: producto.idFirebase
     }
     // console.log(this.producto);
     this.carritoServ.addProducto(this.producto);
@@ -77,6 +85,7 @@ export class HomeComponent implements OnInit {
         this.data = resp.map((e: any) => {
           return {
             marca: e.payload.doc.data().marca,
+            modelo: e.payload.doc.data().modelo,
             descripcion: e.payload.doc.data().descripcion,
             precio: e.payload.doc.data().precio,
             // procesador: e.payload.doc.data().procesador,
@@ -91,27 +100,53 @@ export class HomeComponent implements OnInit {
       }
     )
 
-    this.firebaseServ.getCollections("Accesorios").subscribe(
+    this.firebaseServ.getAccesorios().subscribe(
       resp => {
         this.data2 = resp.map((e: any) => {
           return {
             marca: e.payload.doc.data().marca,
+            modelo: e.payload.doc.data().modelo,
             descripcion: e.payload.doc.data().descripcion,
             precio: e.payload.doc.data().precio,
-           
             calificacion: e.payload.doc.data().calificacion,
             url: e.payload.doc.data().url,
             idFirebase: e.payload.doc.id,
           }
         })
-        // console.log('cargando celulares ', this.smart);
+        this.combinado = this.data2.concat(this.data)
+        // console.log('cargando celulares ', this.combinado);
       }
+
     )
   }
 
-  modificar(){}
+  modificar() { }
 
-  verSmartphone(item: any) {    
+
+  convert(obj: any) {
+    if (!'USD'.indexOf(this.opt)) {
+      this.dolar = this.precio / 19.87;
+      obj.precio = this.dolar;
+      console.log('dolar');
+
+    } else
+      if (!'MXN'.indexOf(this.opt)) {
+        this.mxn = this.precio;
+        obj.precio = this.mxn;
+        console.log('peso');
+      } else
+        if (!'EUR'.indexOf(this.opt)) {
+          this.euro = this.precio / 20.03;
+          obj.precio = this.euro;
+          console.log('euro');
+        }
+
+
+    // obj.precio=this.monto
+    console.log('este es el monto', obj.precio)
+  }
+
+  verSmartphone(item: any) {
     this.firebaseServ.sendObjectSorce(item)
     this.router.navigate(['detalles', item.idFirebase])
   }

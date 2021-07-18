@@ -21,6 +21,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DetallesComponent } from './Componentes/detalles/detalles.component';
 import { LoginComponent } from './Auth/login/login.component';
 import { RegisterComponent } from './Auth/register/register.component';
+import { PedidosComponent } from './Componentes/pedidos/pedidos.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { RegisterComponent } from './Auth/register/register.component';
     DetallesComponent,
     LoginComponent,
     RegisterComponent,
+    PedidosComponent,
   ],
   imports: [
     BrowserModule,

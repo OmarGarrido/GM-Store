@@ -18,19 +18,20 @@
       <li class="nav-item " ngbDropdown>
         <a class="nav-link" [routerLink] ngbDropdownToggle>{{user?.displayName}}</a>
         <div ngbDropdownMenu>
-          <a class="dropdown-item" [routerLink]="['crud']">Admin</a>
-          <a class="dropdown-item" (click)="onLogout()" [routerLink]>Logout</a>
+          <!-- <a class="dropdown-item" [routerLink]="['crud']"><i class="fas fa-user me-3"></i>Admin</a> -->
+          <a class="dropdown-item" [routerLink]="['Pedidos']"><i class="fas fa-truck me-2"></i> Mis Pedidos </a>
+          <a class="dropdown-item" (click)="onLogout()" [routerLink]><i class="fas fa-sign-out-alt me-3"></i>Logout</a>
         </div>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link" (click)="collapse.toggle()" (click)="cargarCarrito()">
+      <li *ngIf="vacio==false" class="nav-item">
+        <a class="nav-link" (click)="collapse.toggle()">
           <i class="fas fa-cart-plus fa-2x"></i>
         </a>
         <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
           <div class="card white-text bg-secondary">
             <div class="card-body">
-              <div class="container">
+              <div class="container d-grid gap-2">
                 <div *ngFor="let pedido of articulos" class="row">
                   <div class="col-auto" style="display: inline-flex;">
                     <img [src]="pedido.producto.url" style="margin: 5px; height: 60px; width: 60px;">
@@ -39,16 +40,25 @@
                       ${{pedido.producto.precio|number}}</p>
                   </div>
                   <div class="col-auto">
-                    <button class="btn btn-success mt-2 me-2" style="border-radius: 70px;" (click)="add(pedido.producto)"><i
-                        class="fas fa-plus"></i></button>
+                    <button class="btn btn-info mt-2 me-2" style="border-radius: 70px;"
+                      (click)="add(pedido.producto)"><i class="fas fa-plus"></i></button>
                     <input style="width: 60px;" min="0" readonly="true" type="number" class="btn mt-2"
                       [value]="pedido.cantidad">
-                    <button class="btn btn-danger mt-2" style="border-radius: 70px;" (click)="delete(pedido.producto)"><i
-                        class="fas fa-minus"></i></button>
+                    <button class="btn btn-danger mt-2" style="border-radius: 70px;"
+                      (click)="delete(pedido.producto)"><i class="fas fa-minus"></i></button>
                   </div>
                 </div>
                 <hr>
-                <p style="text-align: right;">Total: </p>
+                <div class="row">
+                  <div class="col">
+                    <p style="text-align: right;">Cantidad: {{cantidad}}</p>
+                  </div>
+                  <div class="col">
+                    <p>Total: {{total|number}}</p>
+                  </div>
+                </div>
+                <button class="btn btn-success" *ngIf="vacio==false" (click)="comprar()" (click)="collapse.toggle()">Ir
+                  a Pagar</button>
               </div>
             </div>
           </div>

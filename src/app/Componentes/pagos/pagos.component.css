@@ -1,14 +1,20 @@
-a{
+a {
     text-decoration: none;
 }
 
-.carrito{
-    padding: 8px;
-    position: absolute;
-    color: #88D1C7;
-    background-color: #375a7f;
-    margin: 15px;
-    border-radius: 50px;
-    opacity: 90%;
+.pagos {
+    margin-right: 3px;
+}
+
+.descripcion {
+    white-space: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.cantidad {
+    text-align: center;
+    width: 60px;
+    font-weight: bold;
     
 }

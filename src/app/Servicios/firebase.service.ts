@@ -18,6 +18,10 @@ export class FirebaseService {
     private firestore: AngularFirestore,
     private router: Router) { }
 
+  getId() {
+    return this.firestore.createId();
+  }
+
   getUser() {
     return this.firestore.collection("usuarios").snapshotChanges();
   }
@@ -30,12 +34,17 @@ export class FirebaseService {
     this.objecjSorce.next(data);
   }
 
-  getCollections(path: string) {
-    return this.firestore.collection(path).snapshotChanges();
+  getCollections<tipo>(path: string) {
+    const coollection= this.firestore.collection<tipo>(path);
+    return coollection.valueChanges();
   }
 
   getSmartphone() {
-    return this.firestore.collection("Smartphone2").snapshotChanges();
+    return this.firestore.collection("Smartphone").snapshotChanges();
+  }
+
+  getAccesorios() {
+    return this.firestore.collection('Accesorios').snapshotChanges();
   }
 
   // metodo alterno para cargar coleciones generico
@@ -50,6 +59,12 @@ export class FirebaseService {
     return collection.doc(id).set(data);
   }
 
+  deleteDoc(path: string, id: string) {
+    const collection = this.firestore.collection(path);
+    return collection.doc(id).delete();
+  }
+  //
+
   updateArticulo(path: string, id: any, Smartphone: any) {
     return this.firestore.collection(path).doc(id).update(Smartphone);
   }
@@ -60,19 +75,19 @@ export class FirebaseService {
 
   // 
   createSmartphone(Smartphone: any) {
-    return this.firestore.collection("Smartphone2").add(Smartphone);
+    return this.firestore.collection("Smartphone").add(Smartphone);
   }
 
   updateSmartphone(id: any, Smartphone: any) {
-    return this.firestore.collection("Smartphone2").doc(id).update(Smartphone);
+    return this.firestore.collection("Smartphone").doc(id).update(Smartphone);
   }
 
   eliminarSmartphone(id: any) {
-    return this.firestore.collection("Smartphone2").doc(id).delete();
+    return this.firestore.collection("Smartphone").doc(id).delete();
   }
 
   agregarUrl(Smartphone: any) {
-    return this.firestore.collection("Smartphone2").doc(Smartphone.id).update(Smartphone.url);
+    return this.firestore.collection("Smartphone").doc(Smartphone.id).update(Smartphone.url);
   }
 
 
