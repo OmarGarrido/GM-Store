@@ -57,6 +57,7 @@ export interface Producto {
     // camara: string;
     // rom: number;
     // ram:number
+    etiqueta:String
     calificacion: number;
     url: string;
     idFirebase: string;

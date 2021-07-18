@@ -8,19 +8,70 @@
     </div>
     <div class="col-md-5 mt-5 mx-auto">
         <h3 class="card-text">{{smartPhone.marca}}</h3>
+        <!-- <h1>existencias: {{smartPhone.etiqueta}}</h1> -->
         <div style="color: orange; font-size: xx-large;">
             <ngb-rating [max]="5" [(rate)]="smartPhone.calificacion" [readonly]="true">
             </ngb-rating>
         </div>
-        <p class="card-text mt-2" style="text-transform: capitalize;"><small>{{smartPhone.descripcion}}</small></p>
+
+        <div >
+            <table id="productDetails_techSpec_section_1" class="a-keyvalue prodDetTable" role="presentation">
+                <tbody>
+                    <tr>
+                        <th style="text-align: right;"class=""> Marca </th>
+                        <td class=""> {{smartPhone.marca}} </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: right;" class=""> Modelo </th>
+                        <td class=""> {{smartPhone.modelo}} </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: right;" class=""> Existencias </th>
+                        <td class=""> {{smartPhone.existencias}} </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div *ngIf="smartPhone.etiqueta=='Smartphone'">
+            <table id="productDetails_techSpec_section_1" class="a-keyvalue prodDetTable" role="presentation">
+                <tbody>
+                    <tr>
+                        <th class=""> Marca </th>
+                        <td class=""> {{smartPhone.marca}} </td>
+                    </tr>
+                    <tr>
+                        <th class=""> Modelo </th>
+                        <td class=""> {{smartPhone.modelo}} </td>
+                    </tr>
+                    <tr>
+                        <th>Camara</th>
+                        <td>{{smartPhone.camara}}</td>
+                    </tr>
+                    <tr>
+                        <th class=""> Procesador </th>
+                        <td class=""> {{smartPhone.procesador}} </td>
+                    </tr>
+                    <tr>
+                        <th class=""> Almacenamiento </th>
+                        <td class=""> {{smartPhone.almacenamiento}} </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
         <div style="display: flex;" class="float-right">
-            <img src="https://firebasestorage.googleapis.com/v0/b/claudia-32bd6.appspot.com/o/shipping-truck.png?alt=media&token=f506adf7-460d-4e44-a39d-22bb0334b8df" class="img-fluid" style="height: 30px;">
+            <img src="https://firebasestorage.googleapis.com/v0/b/claudia-32bd6.appspot.com/o/shipping-truck.png?alt=media&token=f506adf7-460d-4e44-a39d-22bb0334b8df"
+                class="img-fluid" style="height: 30px;">
             <p class="mt-1 ml-2">Envio Gratis</p>
         </div>
         <div style="display: flex;">
             <h4 class="card-text mt-3">${{smartPhone.precio|number}}</h4>
 
-            <select [(ngModel)]="opt" name="lista" (change)="convert(smartPhone)" style="height: fit-content; margin-top: 18px; margin-left: 10px;">
+            <select [(ngModel)]="opt" name="lista" (change)="convert(smartPhone)"
+                style="height: fit-content; margin-top: 18px; margin-left: 10px;">
                 <option [value]="item" *ngFor="let item of lista">{{item}}</option>
             </select>
 

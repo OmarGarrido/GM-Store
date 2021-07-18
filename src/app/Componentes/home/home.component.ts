@@ -64,16 +64,22 @@ export class HomeComponent implements OnInit {
   }
 
   agregarCarrito(producto: any) {
-    this.producto = {
-      marca: producto.marca,
-      modelo: producto.modelo,
-      precio: producto.precio,
-      calificacion: producto.calificacion,
-      url: producto.url,
-      idFirebase: producto.idFirebase
+    
+    if (producto != undefined) {
+      this.producto = {
+        marca: producto.marca,
+        modelo: producto.modelo,
+        precio: producto.precio,
+        etiqueta:producto.etiqueta,
+        calificacion: producto.calificacion,
+        url: producto.url,
+        idFirebase: producto.idFirebase
+      }
+      // console.log('agregar carrito->>>',this.producto);
+      this.carritoServ.addProducto(this.producto);
+    } else {
+      this.router.navigate['login'];
     }
-    // console.log(this.producto);
-    this.carritoServ.addProducto(this.producto);
 
     // this.carritoServ.addProducto(smartphone)
 
@@ -88,9 +94,11 @@ export class HomeComponent implements OnInit {
             modelo: e.payload.doc.data().modelo,
             descripcion: e.payload.doc.data().descripcion,
             precio: e.payload.doc.data().precio,
-            // procesador: e.payload.doc.data().procesador,
-            // camara: e.payload.doc.data().camara,
-            // almacenamiento: e.payload.doc.data().almacenamiento,
+            procesador: e.payload.doc.data().procesador,
+            existencias: e.payload.doc.data().existencias,
+            camara: e.payload.doc.data().camara,
+            etiqueta: e.payload.doc.data().etiqueta,
+            almacenamiento: e.payload.doc.data().almacenamiento,
             calificacion: e.payload.doc.data().calificacion,
             url: e.payload.doc.data().url,
             idFirebase: e.payload.doc.id,
@@ -109,12 +117,14 @@ export class HomeComponent implements OnInit {
             descripcion: e.payload.doc.data().descripcion,
             precio: e.payload.doc.data().precio,
             calificacion: e.payload.doc.data().calificacion,
+            etiqueta: e.payload.doc.data().etiqueta,
+            existencias: e.payload.doc.data().existencias,
             url: e.payload.doc.data().url,
             idFirebase: e.payload.doc.id,
           }
         })
         this.combinado = this.data2.concat(this.data)
-        // console.log('cargando celulares ', this.combinado);
+        // console.log('cargando accesorios ', this.data2);
       }
 
     )

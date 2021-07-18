@@ -154,6 +154,8 @@ export class CrudComponent implements OnInit {
         )
         this.array = this.collection.data.concat(this.collection2.data)
         // console.log(this.array);
+        console.log(this.collection2.data);
+        
 
       },
       error => {

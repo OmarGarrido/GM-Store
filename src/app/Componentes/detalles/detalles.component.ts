@@ -35,6 +35,7 @@ export class DetallesComponent implements OnInit {
     this.firebaseServ.$getObjecjtSorce.subscribe(data => this.smartPhone = data).unsubscribe();
     this.precio = this.smartPhone.precio;
     console.log("Este es el precio original ", this.precio);
+    console.log("producto ", this.smartPhone);
 
     // console.log(this.smartPhone.idFirebase);
   }
