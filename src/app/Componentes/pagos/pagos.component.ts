@@ -22,6 +22,9 @@ export class PagosComponent implements OnInit {
   vacio: boolean;
   pagado:boolean=true;
 
+  public isMenuCollapsed = true;
+  public isCollapsed = true;
+
   constructor(
     private firebaseServ:FirebaseService,
     private modalService: NgbModal,
@@ -49,7 +52,7 @@ export class PagosComponent implements OnInit {
     this.carritoServ.getCarrito().subscribe(resp => {
       if (!resp.producto.length) {
         console.log("Esta vacio");
-        this.router.navigate(['Pedidos']);
+        this.router.navigate(['InicioS']);
         this.vacio = true
       } else {
         this.vacio = false
@@ -58,8 +61,27 @@ export class PagosComponent implements OnInit {
         this.getCantidad();
         this.getTotat();
         console.log("Nooooo Esta vacio ",this.articulos);
+        console.log("pedidps ",this.pedidos.precioTotal);
       }
     })
+  }
+
+  nuevo(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   getTotat() {
@@ -97,14 +119,6 @@ export class PagosComponent implements OnInit {
 
   }
 
-  nuevoPago(content) {
-    this.pagado=false;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
 
   validarPago(){
     this.pagado=false;
@@ -114,15 +128,6 @@ export class PagosComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
 
 
 }

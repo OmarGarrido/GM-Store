@@ -43,7 +43,7 @@ export class DetallesComponent implements OnInit {
   add(producto: Producto) {
     this.cargarCarrito();
     this.carritoServ.addProducto(producto);
-    this.router.navigate(['Pagos', producto.idFirebase]);
+    this.router.navigate(['Pagos']);
   }
 
   delete(producto: Producto) {
@@ -84,9 +84,10 @@ export class DetallesComponent implements OnInit {
   }
 
   comprar() {
-    this.firebaseServ.sendObjectSorce(this.pedidos)
+    // this.firebaseServ.sendObjectSorce(this.pedidos)
 
-    this.router.navigate(['Pagos', this.pedidos.id]);
+
+    this.router.navigate(['Pagos']);
     return
 
     if (!this.pedidos.producto.length) {

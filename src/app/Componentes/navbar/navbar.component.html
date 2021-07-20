@@ -18,7 +18,7 @@
       <li class="nav-item " ngbDropdown>
         <a class="nav-link" [routerLink] ngbDropdownToggle>{{user?.displayName}}</a>
         <div ngbDropdownMenu>
-          <!-- <a class="dropdown-item" [routerLink]="['crud']"><i class="fas fa-user me-3"></i>Admin</a> -->
+          <!-- <a class="dropdown-item" [routerLink]="['login']"><i class="fas fa-user me-3"></i>Admin</a> -->
           <a class="dropdown-item" [routerLink]="['Pedidos']"><i class="fas fa-truck me-2"></i> Mis Pedidos </a>
           <a class="dropdown-item" (click)="onLogout()" [routerLink]><i class="fas fa-sign-out-alt me-3"></i>Logout</a>
         </div>
@@ -68,6 +68,7 @@
     </ul>
 
     <ng-template #login>
+
       <ul class="navbar-nav ml-auto mr-3" id="lista2">
         <li class="nav-item active"><a class="btn btn-success" [routerLink]="['login']">Iniciar Sesion</a></li>
         <li class="nav-item active"><a class="btn btn-info ml-3" [routerLink]="['register']">Restrate</a></li>

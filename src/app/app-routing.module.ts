@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'Pedidos', component: PedidosComponent },
   { path: 'crud/:admin', component: CrudComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'admin', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'Pagos', component: PagosComponent },
   { path: 'detalles/:smart', component: DetallesComponent },
