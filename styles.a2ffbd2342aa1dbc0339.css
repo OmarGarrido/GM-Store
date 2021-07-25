@@ -1,0 +1,1 @@
+.animated{animation-duration:1s;animation-fill-mode:both}.fast{animation-duration:.4s;animation-fill-mode:both}@keyframes fadeIn{0%{opacity:0}to{opacity:1}}.fadeIn{animation-name:fadeIn}.carrito{padding:8px;position:absolute;color:#88d1c7;background-color:#375a7f;margin:15px;border-radius:50px}.ngx-pagination .current{background:#375a7f}
