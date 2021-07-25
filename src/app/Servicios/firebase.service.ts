@@ -90,6 +90,10 @@ export class FirebaseService {
     return this.firestore.collection("Smartphone2").doc(id).delete();
   }
 
+  eliminarAccesorio(id: any) {
+    return this.firestore.collection("Accesorios").doc(id).delete();
+  }
+
   agregarUrl(Smartphone: any) {
     return this.firestore.collection("Smartphone2").doc(Smartphone.id).update(Smartphone.url);
   }

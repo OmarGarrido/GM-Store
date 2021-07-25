@@ -12,6 +12,7 @@ import { FirebaseService } from 'src/app/Servicios/firebase.service';
 export class DetallesComponent implements OnInit {
 
   smartPhone: any = {}
+  descripcion:any
 
   lista: string[] = ["MXN", "USD", "EUR"];
   dolar: number;
@@ -30,12 +31,16 @@ export class DetallesComponent implements OnInit {
     private carritoServ:CarritoService
   ) { }
 
-
+ hola="hola como estas"
   ngOnInit(): void {
     this.firebaseServ.$getObjecjtSorce.subscribe(data => this.smartPhone = data).unsubscribe();
     this.precio = this.smartPhone.precio;
-    console.log("Este es el precio original ", this.precio);
-    console.log("producto ", this.smartPhone);
+    this.descripcion=this.smartPhone.descripcion.split("\n")
+    console.log(this.descripcion);
+    
+    // this.descripcion=this.smartPhone.descripcion.spli()
+    // console.log("Este es el precio original ", this.precio);
+    // console.log("producto ", this.smartPhone);
 
     // console.log(this.smartPhone.idFirebase);
   }
@@ -43,7 +48,9 @@ export class DetallesComponent implements OnInit {
   add(producto: Producto) {
     this.cargarCarrito();
     this.carritoServ.addProducto(producto);
+  if(this.carritoServ.uid.length!=0){
     this.router.navigate(['Pagos']);
+  }    
   }
 
   delete(producto: Producto) {

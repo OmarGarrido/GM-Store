@@ -27,7 +27,7 @@ export interface Accesorio{
 }
 export interface Usuario {
     nombre: string;
-    // apellidos: string;
+    rol:string
     // telefono: string;
     // direccion: string;
     uid: string;
@@ -56,8 +56,8 @@ export interface Producto {
     // procesador: string;
     // camara: string;
     // rom: number;
-    // ram:number
     etiqueta:String
+    existencias:number
     calificacion: number;
     url: string;
     idFirebase: string;

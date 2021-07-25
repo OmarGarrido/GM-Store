@@ -12,7 +12,7 @@ import { FirebaseService } from 'src/app/Servicios/firebase.service';
 })
 export class PagosComponent implements OnInit {
 
-  carrito:any={}
+  carrito: any = {}
   closeResult: string;
 
   pedidos: PedidoCarrito;
@@ -20,16 +20,16 @@ export class PagosComponent implements OnInit {
   total: number;
   cantidad: number;
   vacio: boolean;
-  pagado:boolean=true;
+  pagado: boolean = true;
 
   public isMenuCollapsed = true;
   public isCollapsed = true;
 
   constructor(
-    private firebaseServ:FirebaseService,
+    private firebaseServ: FirebaseService,
     private modalService: NgbModal,
-    private carritoServ:CarritoService,
-    private router:Router
+    private carritoServ: CarritoService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class PagosComponent implements OnInit {
 
   delete(producto: Producto) {
     this.carritoServ.removeProducto(producto);
-    this.cargarCarrito();        
+    this.cargarCarrito();
   }
 
   cargarCarrito() {
@@ -60,8 +60,8 @@ export class PagosComponent implements OnInit {
         this.articulos = this.pedidos.producto
         this.getCantidad();
         this.getTotat();
-        console.log("Nooooo Esta vacio ",this.articulos);
-        console.log("pedidps ",this.pedidos.precioTotal);
+        console.log("Nooooo Esta vacio ", this.articulos);
+        console.log("pedidps ", this.pedidos.precioTotal);
       }
     })
   }
@@ -109,22 +109,36 @@ export class PagosComponent implements OnInit {
     this.pedidos.id = this.firebaseServ.getId();
     const uid = this.carritoServ.getUid();
     const path = "Usuarios/" + uid + "/Pedidos"
+    // console.log('antes de gurada', this.pedidos);
+
+    this.pedidos.producto.forEach(producto => {
+      // this.firebaseServ.updateCantidad('')
+      if (producto.producto.etiqueta == "Smartphone") {
+        const updCantidad = producto.producto.existencias - producto.cantidad
+        this.firebaseServ.updateCantidad('Smartphone2', producto.producto.idFirebase, updCantidad);
+
+      } else {
+        const updCantidad = producto.producto.existencias - producto.cantidad
+        this.firebaseServ.updateCantidad('Accesorios', producto.producto.idFirebase, updCantidad);
+      }
+
+    })
+
     this.firebaseServ.crearDoc(path, this.pedidos, this.pedidos.id).then(() => {
       this.carritoServ.clearCarrito();
       console.log("Guardado con exito");
-      this.carrito=null
-
+      this.carrito = null
     })
     console.log("comprar-> ", this.pedidos, uid)
 
   }
 
 
-  validarPago(){
-    this.pagado=false;
+  validarPago() {
+    this.pagado = false;
   }
-  
-  cerrar(){
+
+  cerrar() {
     this.modalService.dismissAll();
   }
 

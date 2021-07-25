@@ -70,6 +70,7 @@ export class HomeComponent implements OnInit {
         marca: producto.marca,
         modelo: producto.modelo,
         precio: producto.precio,
+        existencias:producto.existencias,
         etiqueta:producto.etiqueta,
         calificacion: producto.calificacion,
         url: producto.url,

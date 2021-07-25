@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
     nombre: '',
     // apellidos: '',
     // telefono: '',
-    // direccion: '',
+    rol: 'cliente',
     uid: '',
   }
 
@@ -58,7 +58,8 @@ export class RegisterComponent implements OnInit {
         
         this.usuario={
           nombre: nombre + ' ' + apellidos,
-          uid: user.user.uid
+          uid: user.user.uid,
+          rol: 'cliente'
         };
         this.fireServ.crearDoc('Usuarios', this.usuario, this.usuario.uid);
 

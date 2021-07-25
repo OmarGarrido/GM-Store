@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { PedidoCarrito, Producto, ProductoPedido } from 'src/app/models';
+import { PedidoCarrito, Producto, ProductoPedido, Usuario } from 'src/app/models';
 import { AuthService } from 'src/app/Servicios/auth.service';
 import { CarritoService } from 'src/app/Servicios/carrito.service';
 import { FirebaseService } from 'src/app/Servicios/firebase.service';
@@ -13,7 +13,12 @@ import { FirebaseService } from 'src/app/Servicios/firebase.service';
 })
 export class NavbarComponent implements OnInit {
 
-  usuario: any;
+  usuario: Usuario={
+    uid:"",
+    nombre:"",
+    rol:"cliente"
+  };
+  uid:any
   pedidos: PedidoCarrito;
   articulos: any[];
   total: number;
@@ -25,6 +30,7 @@ export class NavbarComponent implements OnInit {
 
   public user$: Observable<any> = this.authServ.afServ.user;
   vacio: any;
+  toast: boolean;
 
   constructor(
     private authServ: AuthService,
@@ -37,7 +43,12 @@ export class NavbarComponent implements OnInit {
     this.cargarCarrito();
     this.authServ.getUserCurrent().subscribe(user => {
       if (user) {
-        console.log(user.displayName);
+        this.uid=user.uid
+        this.firebaseService.getDoc<Usuario>('Usuarios',this.uid).subscribe(res=>{
+          this.usuario = res;
+          console.log(this.usuario);
+          
+        })    
       } else {
         console.log("No estas logueado");
       }
@@ -45,10 +56,15 @@ export class NavbarComponent implements OnInit {
 
   }
 
+  
+  mostrar(valor:boolean){
+    this.toast=valor
+  }
+
+
   add(producto: Producto) {
     this.cargarCarrito();
     this.carritoServ.addProducto(producto);
-
   }
 
   delete(producto: Producto) {

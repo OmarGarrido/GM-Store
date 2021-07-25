@@ -20,8 +20,9 @@ export class CarritoService {
   constructor(
     public fireAuth: AuthService,
     public fireBase: FirebaseService,
-    public router: Router
+    public router: Router,
   ) {
+
 
     this.initCarrito();
     this.fireAuth.getUserCurrent().subscribe(res => {
@@ -33,6 +34,8 @@ export class CarritoService {
     })
 
   }
+
+
 
   getUid() {
     this.fireAuth.getUserCurrent().subscribe(res => {
@@ -81,14 +84,21 @@ export class CarritoService {
 
   addProducto(producto: Producto) {
     // console.log('info recibida ',producto);
-
+    
     if (this.uid.length) {
       const item = this.pedido.producto.find(productosPedido => {
         return (productosPedido.producto.idFirebase === producto.idFirebase)
       });
 
       if (item) {
-        item.cantidad++;
+        if (item.cantidad < item.producto.existencias) {
+
+          item.cantidad++;
+        } else {
+          // console.log('nueva funcon ', item);
+          console.log('ya no hay existencias');
+          return
+        }
       } else {
         const pedido: ProductoPedido = {
           cantidad: 1,
@@ -112,9 +122,9 @@ export class CarritoService {
   }
 
   getCarrito(): Observable<PedidoCarrito> {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.pedido$.next(this.pedido);
-    },250)
+    }, 250)
     return this.pedido$.asObservable();
   }
 

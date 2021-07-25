@@ -6,6 +6,8 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable, pipe, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { Usuario } from 'src/app/models';
+import { AuthService } from 'src/app/Servicios/auth.service';
 import { FirebaseService } from 'src/app/Servicios/firebase.service';
 
 @Component({
@@ -15,6 +17,7 @@ import { FirebaseService } from 'src/app/Servicios/firebase.service';
 })
 export class CrudComponent implements OnInit {
 
+  public user$: Observable<any> = this.authServ.afServ.user;
   collection = { data: [] }
   collection2 = { data: [] }
   array: any
@@ -34,8 +37,11 @@ export class CrudComponent implements OnInit {
   uploadPercent: Observable<number>;
   urlImage: Observable<string>;
   urlFInd: Subscription;
+  usuario: Usuario;
 
   constructor(
+    private authServ: AuthService,
+    private firebaseService: FirebaseService,
     public fb: FormBuilder,
     private modalService: NgbModal,
     private fibaseService: FirebaseService,
@@ -67,13 +73,17 @@ export class CrudComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.fibaseService.$getObjecjtSorce.subscribe(resp => this.admin = resp).unsubscribe();
-    console.log('es admin? ', this.admin);
-
-    if (this.admin != true) {
-      this.router.navigate(['Inicio'])
-    }
-
+    this.authServ.getUserCurrent().subscribe(user => {
+      if (user) {
+        this.firebaseService.getDoc<Usuario>('Usuarios',user.uid).subscribe(res=>{
+          this.usuario = res;
+          console.log(this.usuario.rol);
+          
+        });     
+      } else {
+        console.log("No estas logueado");
+      }
+    });
     this.idFirebaseUpdate = "";
 
     this.config = {
@@ -175,6 +185,8 @@ export class CrudComponent implements OnInit {
 
   eliminar(item: any): void {
     this.fibaseService.eliminarSmartphone(item.idFirebase)
+    this.fibaseService.eliminarAccesorio(item.idFirebase)
+    
 /*   this.collection.data.pop(item);
  */};
 

@@ -1,5 +1,6 @@
+<h3 *ngIf="usuario.rol!='admin'" style="text-align: center; ">Necesitas una cuenta de admin para esta pagina!!</h3>
 
-<div>
+<div *ngIf="usuario.rol=='admin'">
     <div style="text-align: center;">
         <table class="table table-hover" style="min-height: 57.7vh;">
             <thead>
@@ -17,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="table" *ngFor="let item of array| paginate: config">
+                <tr class="table" *ngFor="let item of array">
                     <td>{{item.marca}}</td>
                     <td style="text-transform: capitalize; text-align: justify;"><img class="img-fluid" [src]="item.url"
                             style="width: 50px;   margin-right: 1rem;">{{item.modelo}}</td>
