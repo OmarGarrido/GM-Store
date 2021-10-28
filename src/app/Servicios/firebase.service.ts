@@ -33,9 +33,9 @@ export class FirebaseService {
     this.objecjSorce.next(data);
   }
 
-  getCollections<tipo>(path: string) {
-    const coollection= this.firestore.collection<tipo>(path);
-    return coollection.valueChanges();
+  getCollections(path: string) {
+    const coollection= this.firestore.collection(path);
+    return coollection.snapshotChanges();
   }
 
   getSmartphone() {

@@ -113,18 +113,26 @@ export class VehiculosComponent implements OnInit {
       dirEjecutivo: ['', Validators.required],
     });
 
-    this.fibaseService.getCollections<Vehiculos>(this.path).subscribe(
-      resp => {
-        if (resp) {
-          this.vehiculos = resp;
-          console.log(this.vehiculos);
-
-
-        } else {
-          console.log('valio pito');
-
+    this.fibaseService.getCollections(this.path).subscribe(resp => {
+      this.collection.data = resp.map((e: any) => {
+        return {
+          modelo: e.payload.doc.data().modelo,
+          marca: e.payload.doc.data().marca,
+          color: e.payload.doc.data().color,
+          descripcion: e.payload.doc.data().descripcion,
+          precio: e.payload.doc.data().precio,
+          existencias: e.payload.doc.data().existencias,
+          url: e.payload.doc.data().url,
+          idFirebase: e.payload.doc.id
         }
       })
+      console.log(this.collection.data);
+      
+    },
+    error => {
+      console.error(error);
+    }
+  )
   }
 
 
@@ -133,7 +141,7 @@ export class VehiculosComponent implements OnInit {
   }
 
   eliminar(item: any): void {
-    this.fibaseService.eliminarSmartphone(item.idFirebase)
+    this.fibaseService.deleteDoc(this.path,item.idFirebase)
     this.fibaseService.eliminarAccesorio(item.idFirebase)
 
 /*   this.collection.data.pop(item);
@@ -173,6 +181,8 @@ export class VehiculosComponent implements OnInit {
   //esto es codigo del modal
   editar(content, item: any) {
     this.updSave = true;
+    this.idFirebaseUpdate=item.idFirebase
+    
     //llenando formulario con los datos a editar
     this.vehiculoForm.setValue({
       marca: item.marca,

@@ -115,18 +115,18 @@ export class CrudComponent implements OnInit {
       dirEjecutivo: ['', Validators.required],
     });
 
-    this.fibaseService.getCollections<Vehiculos>(this.path).subscribe(
-      resp => {
-        if (resp) {
-          this.vehiculos = resp;
-          console.log(this.vehiculos);
+    // this.fibaseService.getCollections<Vehiculos>(this.path).subscribe(
+    //   resp => {
+    //     if (resp) {
+    //       // this.vehiculos = resp;
+    //       console.log(this.vehiculos);
 
 
-        } else {
-          console.log('valio pito');
+    //     } else {
+    //       console.log('valio pito');
 
-        }
-      })
+    //     }
+    //   })
   }
 
 

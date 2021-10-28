@@ -23,26 +23,26 @@ export class PedidosComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.fireAuth.getUserCurrent().subscribe(res => {
-      if (res) {
-        this.uid = res.uid;
-        this.getPedidos();
-      }
-    })
+    // this.fireAuth.getUserCurrent().subscribe(res => {
+    //   if (res) {
+    //     this.uid = res.uid;
+    //     this.getPedidos();
+    //   }
+    // })
 
   }
 
-  getPedidos() {
-    const path = 'Usuarios/' + this.uid + '/' + this.path;
-    this.firebase.getCollections<PedidoCarrito>(path).subscribe(res => {
-      if (res) {
-        this.pedido = res;
-        // this.pedido$.next(this.pedido);
-        // console.log('tenemos pedidos-> ', this.pedido);
+  // getPedidos() {
+  //   const path = 'Usuarios/' + this.uid + '/' + this.path;
+  //   this.firebase.getCollections<PedidoCarrito>(path).subscribe(res => {
+  //     if (res) {
+  //       this.pedido = res;
+  //       // this.pedido$.next(this.pedido);
+  //       // console.log('tenemos pedidos-> ', this.pedido);
 
-      }
-    })
+  //     }
+  //   })
 
-  }
+  // }
 
 }

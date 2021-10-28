@@ -4,7 +4,7 @@
 <div>
     <!-- cambiar -->
     <div style="text-align: center;">
-        <table class="table table-hover" style="min-height: 57.7vh;">
+        <table class="table table-hover">
             <thead>
                 <tr class="table-primary">
                     <th>Marca</th>
@@ -17,22 +17,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="table" *ngFor="let item of vehiculos">
+                <tr class="table" *ngFor="let item of collection.data">
                     <td>{{item.marca}}</td>
                     <td style="text-transform: capitalize; text-align: justify;">
                         <img class="img-fluid" [src]="item.url"
                             style="width: 50px;   margin-right: 1rem;">{{item.modelo}}
                     </td>
                     <td>{{item.color}}</td>
-                    <td>
-                        <p class="descripcion">{{item.descripcion}}</p>
-                    </td>
+                    <td>{{item.descripcion}}</td>
                     <td>${{item.precio|number}}</td>
                     <td>{{item.existencias|number}}</td>
                     <td>
                         <button type="button" class="btn btn-danger" (click)="eliminar(item)">Eliminar</button>
-                        <button type="button" class="btn btn-primary"
-                            (click)="editar(content,item)">Editar</button>
+                        <button type="button" class="btn btn-primary" (click)="editar(content,item)">Editar</button>
                     </td>
                 </tr>
             </tbody>
