@@ -3,7 +3,8 @@
 <!-- <div *ngIf="usuario.rol=='admin'"> -->
 <div>
     <!-- cambiar -->
-    <div style="text-align: center;">
+    <div style="text-align: center; margin: 3rem;">
+        <button style="margin-bottom: 1.5rem;" type="button" class="btn btn-primary" (click)="nuevo(content)">Añadir Nuevo Vehiculo</button>
         <table class="table table-hover">
             <thead>
                 <tr class="table-primary">
@@ -17,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="table" *ngFor="let item of collection.data">
+                <tr class="table-dark" *ngFor="let item of collection.data">
                     <td>{{item.marca}}</td>
                     <td style="text-transform: capitalize; text-align: justify;">
                         <img class="img-fluid" [src]="item.url"
@@ -101,9 +102,5 @@
                     (click)="actualizarVehiculo(url)">Actualizar</button>
             </div>
         </ng-template>
-
-
-        <button type="button" class="btn btn-primary" (click)="nuevo(content)">Añadir Nuevo Vehiculo</button>
-
     </div>
 </div>

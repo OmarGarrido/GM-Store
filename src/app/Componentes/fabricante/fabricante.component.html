@@ -1,1 +1,91 @@
-<p>fabricante works!</p>
+<!-- <h3 *ngIf="usuario.rol!='admin'" style="text-align: center; ">Necesitas una cuenta de admin para esta pagina!!</h3> -->
+
+<!-- <div *ngIf="usuario.rol=='admin'"> -->
+<div>
+    <!-- cambiar -->
+    <div style="text-align: center; margin: 3rem;">
+        <button style="margin-bottom: 1.5rem;" type="button" class="btn btn-primary" (click)="nuevo(content)">Añadir
+            Nuevo Vehiculo</button>
+        <table class="table table-hover">
+            <thead>
+                <tr class="table-primary">
+                    <th>Nombre</th>
+                    <th>Oficinas Centrales</th>
+                    <th>RSI</th>
+                    <th>Telefono</th>
+                    <th>Web</th>
+                    <th>Director Ejecutivo</th>
+                    <th>Operiaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-dark" *ngFor="let item of collection.data">
+                    <td>{{item.nombre}}</td>
+                    <td>{{item.direccion}}</td>
+                    <td>{{item.rsi|number}}</td>
+                    <td>{{item.telefono}}</td>
+                    <td><a href="{{item.web}}" target="blank">{{item.web}}</a></td>
+                    <td>{{item.dirEjecutivo}}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" (click)="eliminar(item)">Eliminar</button>
+                        <button type="button" class="btn btn-primary" (click)="editar(content,item)">Editar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+
+        <!-- Todo esto es el html del Modal (ventana emergente) -->
+        <ng-template #content let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Crear/Actualizar Fabricante</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <form [formGroup]="fabricanteForm">
+                            <div class="form-group">
+                                <strong><label for="">Nombre</label></strong>
+                                <input type="text" formControlName="nombre" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <strong><label for="">Oficinas Centrales</label></strong>
+                                <input type="text" formControlName="direccion" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <strong><label for="">RSI</label></strong>
+                                <input type="number" formControlName="rsi" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <strong><label for="">Telefono</label></strong>
+                                <input formControlName="telefono" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <strong><label for="">Web</label></strong>
+                                <input type="text" formControlName="web" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <strong><label for="">Director Ejecutivo</label></strong>
+                                <input type="text" formControlName="dirEjecutivo" class="form-control">
+                            </div>
+                        </form>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="updSave==false" type="button" class="btn btn-success"
+                    (click)="guardarVehiculo()">Guardar</button>
+                <button *ngIf="updSave==true" type="button" class="btn btn-info"
+                    (click)="actualizarVehiculo()">Actualizar</button>
+            </div>
+        </ng-template>
+    </div>
+</div>

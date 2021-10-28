@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
         this.fireServ.crearDoc('Usuarios', this.usuario, this.usuario.uid);
 
         //redireccionar a:
-        this.router.navigate(['login']);
+        this.router.navigate(['presentacion']);
       }
     }
     catch (error) {

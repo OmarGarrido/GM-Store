@@ -1,27 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
   <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-  <a [routerLink]="['presentacion']">
+  <!-- <a [routerLink]="['presentacion']">
     <img class="navbar-brand mb-2 ml-3" style="width: 200px;"
       src="https://fontmeme.com/permalink/210424/67fbe406248fc7f82344efafd26b5ccb.png">
-  </a>
+  </a> -->
   <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav ml-auto mr-3" *ngIf="user$ |async as user; else login" id="lista1">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" [routerLink]="['Inicio']" (click)="isMenuCollapsed=true">Inicio</a>
-      </li>
+      </li> -->
 
       <!-- para dropDown y collapse visitar ng-bootstrap porque es directiva como routerLink -->
       <li class="nav-item " ngbDropdown>
         <a class="nav-link" [routerLink] ngbDropdownToggle>{{user?.displayName}}</a>
         <div ngbDropdownMenu>
-          <a *ngIf="usuario.rol=='admin'" class="dropdown-item" [routerLink]="['crud']"><i
-              class="fas fa-user me-3"></i>Admin</a>
-          <a class="dropdown-item" [routerLink]="['Pedidos']"><i class="fas fa-truck me-2"></i> Mis Pedidos </a>
-          <a class="dropdown-item" (click)="onLogout()" [routerLink]><i class="fas fa-sign-out-alt me-3"></i>Logout</a>
+          <a *ngIf="usuario.rol=='admin'" class="dropdown-item" [routerLink]="['vehiculos']"><i
+              class="fas fa-car mr-2"></i>Vehiculos</a>
+          <a class="dropdown-item" [routerLink]="['fabricantes']"><i class="fas fa-industry mr-2"></i> Fabricante </a>
+          <a class="dropdown-item" (click)="onLogout()" [routerLink]><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
         </div>
       </li>
 
@@ -75,9 +75,6 @@
     <ng-template #login>
 
       <ul class="navbar-nav ml-auto mr-3" id="lista2">
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['Inicio']" (click)="isMenuCollapsed=true">Inicio</a>
-        </li>
         <li class="nav-item active"><a class="btn btn-success" [routerLink]="['login']">Iniciar Sesion</a></li>
         <li class="nav-item active"><a class="btn btn-info ml-3" [routerLink]="['register']">Restrate</a></li>
       </ul>
