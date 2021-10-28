@@ -7,7 +7,7 @@ import { finalize } from 'rxjs/operators'
   providedIn: 'root'
 })
 export class StorageService {
-  private MEDIA_STORAGE_PATH = 'materialesImages';
+  private MEDIA_STORAGE_PATH = 'Docs';
   constructor(private readonly storage: AngularFireStorage) {
 
   }

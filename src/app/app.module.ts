@@ -23,6 +23,8 @@ import { LoginComponent } from './Auth/login/login.component';
 import { RegisterComponent } from './Auth/register/register.component';
 import { PedidosComponent } from './Componentes/pedidos/pedidos.component';
 import { PresentacionComponent } from './Componentes/presentacion/presentacion.component';
+import { FabricanteComponent } from './Componentes/fabricante/fabricante.component';
+import { VehiculosComponent } from './Componentes/vehiculos/vehiculos.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { PresentacionComponent } from './Componentes/presentacion/presentacion.c
     RegisterComponent,
     PedidosComponent,
     PresentacionComponent,
+    FabricanteComponent,
+    VehiculosComponent,
   ],
   imports: [
     BrowserModule,

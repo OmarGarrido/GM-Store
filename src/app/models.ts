@@ -1,36 +1,28 @@
-export interface Smartphone {
-    marca: string;
-    modelo: string;
-    descripcion: string;
-    procesador: string;
-    camara: string;
-    almacenamiento: string;
-    precio: number;
-    existencias: number;
-    colores: string[];
-    etiqueta:string;
-    calificacion: number;
-    url: string;
-    idFirebase: string;
-}
-
-export interface Accesorio{
-    marca: string;
-    modelo: string;
-    descripcion: string;
-    precio: number;
-    existencias: number;
-    etiqueta:string;
-    calificacion: number;
-    url: string;
-    idFirebase: string;
-}
 export interface Usuario {
     nombre: string;
-    rol:string
+    rol: string
     // telefono: string;
     // direccion: string;
     uid: string;
+}
+
+export interface Vehiculos {
+    marca: string
+    color: string
+    modelo: string
+    descripcion: string
+    precio: number
+    existencias: number
+    url: string
+}
+
+export interface Fabricante {
+    nombre: string
+    direccion: string
+    rsi: number
+    telefono: string,
+    web: string,
+    dirEjecutivo: string
 }
 
 export interface PedidoCarrito {
@@ -56,8 +48,8 @@ export interface Producto {
     // procesador: string;
     // camara: string;
     // rom: number;
-    etiqueta:String
-    existencias:number
+    etiqueta: String
+    existencias: number
     calificacion: number;
     url: string;
     idFirebase: string;

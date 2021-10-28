@@ -11,12 +11,11 @@ import { AuthService } from 'src/app/Servicios/auth.service';
 import { FirebaseService } from 'src/app/Servicios/firebase.service';
 
 @Component({
-  selector: 'app-crud',
-  templateUrl: './crud.component.html',
-  styleUrls: ['./crud.component.css']
+  selector: 'app-vehiculos',
+  templateUrl: './vehiculos.component.html',
+  styleUrls: ['./vehiculos.component.css']
 })
-export class CrudComponent implements OnInit {
-
+export class VehiculosComponent implements OnInit {
   public user$: Observable<any> = this.authServ.afServ.user;
   collection = { data: [] }
   collection2 = { data: [] }
@@ -26,7 +25,7 @@ export class CrudComponent implements OnInit {
   vehiculoForm: FormGroup;
   idFirebaseUpdate: string;
   updSave: boolean;
-  path = "Vehiculos"
+  path: string = "Vehiculos/"
 
   //interfaces
   vehiculos: Vehiculos[];
@@ -51,7 +50,6 @@ export class CrudComponent implements OnInit {
     private modalService: NgbModal,
     private fibaseService: FirebaseService,
     private readonly storage: AngularFireStorage,
-    private router: Router,
   ) {
 
   }
@@ -158,6 +156,8 @@ export class CrudComponent implements OnInit {
   actualizarVehiculo(url: string) {
     if (this.idFirebaseUpdate != null) {
       this.vehiculoForm.value.url = url;
+      console.log(this.path,this.idFirebaseUpdate);
+      
       this.fibaseService.updateArticulo(this.path, this.idFirebaseUpdate, this.vehiculoForm.value).then(() => {
         this.vehiculoForm.reset();
         this.modalService.dismissAll();
@@ -171,7 +171,7 @@ export class CrudComponent implements OnInit {
   }
 
   //esto es codigo del modal
-  editar(content, content2, item: any) {
+  editar(content, item: any) {
     this.updSave = true;
     //llenando formulario con los datos a editar
     this.vehiculoForm.setValue({
