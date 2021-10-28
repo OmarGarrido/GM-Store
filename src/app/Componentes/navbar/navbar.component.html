@@ -18,8 +18,7 @@
       <li class="nav-item " ngbDropdown>
         <a class="nav-link" [routerLink] ngbDropdownToggle>{{user?.displayName}}</a>
         <div ngbDropdownMenu>
-          <a *ngIf="usuario.rol=='admin'" class="dropdown-item" [routerLink]="['vehiculos']"><i
-              class="fas fa-car mr-2"></i>Vehiculos</a>
+          <a class="dropdown-item" [routerLink]="['vehiculos']"><i class="fas fa-car mr-2"></i>Vehiculos</a>
           <a class="dropdown-item" [routerLink]="['fabricantes']"><i class="fas fa-industry mr-2"></i> Fabricante </a>
           <a class="dropdown-item" (click)="onLogout()" [routerLink]><i class="fas fa-sign-out-alt mr-2"></i>Logout</a>
         </div>

@@ -14,7 +14,7 @@
                     <th>Descripcion</th>
                     <th>Precio</th>
                     <th>Existencias</th>
-                    <th>Operiaciones</th>
+                    <th *ngIf="usuario.rol=='admin'">Operiaciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,8 +28,8 @@
                     <td>{{item.descripcion}}</td>
                     <td>${{item.precio|number}}</td>
                     <td>{{item.existencias|number}}</td>
-                    <td>
-                        <button type="button" class="btn btn-danger" (click)="eliminar(item)">Eliminar</button>
+                    <td  *ngIf="usuario.rol=='admin'">
+                        <button type="button" class="btn btn-danger" style="margin-right: 1rem;" (click)="eliminar(item)">Eliminar</button>
                         <button type="button" class="btn btn-primary" (click)="editar(content,item)">Editar</button>
                     </td>
                 </tr>
@@ -95,7 +95,7 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div  *ngIf="usuario.rol=='admin'" class="modal-footer">
                 <button *ngIf="updSave==false && urlImage|async as url" type="button" class="btn btn-success"
                     (click)="guardarVehiculo(url)">Guardar</button>
                 <button *ngIf="updSave==true && urlImage|async as url" type="button" class="btn btn-info"

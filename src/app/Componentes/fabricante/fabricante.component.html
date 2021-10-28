@@ -15,7 +15,7 @@
                     <th>Telefono</th>
                     <th>Web</th>
                     <th>Director Ejecutivo</th>
-                    <th>Operiaciones</th>
+                    <th *ngIf="usuario.rol=='admin'">Operiaciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,8 +26,8 @@
                     <td>{{item.telefono}}</td>
                     <td><a href="{{item.web}}" target="blank">{{item.web}}</a></td>
                     <td>{{item.dirEjecutivo}}</td>
-                    <td>
-                        <button type="button" class="btn btn-danger" (click)="eliminar(item)">Eliminar</button>
+                    <td *ngIf="usuario.rol=='admin'">
+                        <button type="button" class="btn btn-danger" style="margin-right: 1rem;" (click)="eliminar(item)">Eliminar</button>
                         <button type="button" class="btn btn-primary" (click)="editar(content,item)">Editar</button>
                     </td>
                 </tr>

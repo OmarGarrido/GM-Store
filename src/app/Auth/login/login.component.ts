@@ -24,9 +24,9 @@ export class LoginComponent implements OnInit {
 
   async onLogin() {
     const { email, password } = this.loginForm.value;
-    if (email == 'admin' && password == "admin1234") {
+    if (email == 'admin' && password == "admin") {
       this.firebaseServ.sendObjectSorce(true)
-      this.router.navigate(['crud', 'admin'])
+      this.router.navigate(['presentacion', 'admin'])
     } else {
       try {
         const user = await this.authServ.login(email, password);
