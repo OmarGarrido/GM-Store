@@ -1,0 +1,34 @@
+<div class="mx-auto" style="max-width: 50vw;">
+    <div *ngFor="let articulos of pedidos let i=index" class="card mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    <h5 class="card-title">Pedido No: {{i+1}}</h5>
+                </div>
+                <div class="col">
+                    <h6 style="text-align: end;" class="card-title">Realizado: {{articulos.fecha.seconds*1000 | date:'short'}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div *ngFor="let pedido of articulos.producto" class="col-auto" style="display: inline-flex;">
+                    <img [src]="pedido.producto.url" style="margin: 5px; height: 60px; width: 60px;">
+                    <p style="margin-left: 3px; margin-top: 15px; width: 150px;">{{pedido.producto.marca}}
+                    </p>
+                    <p class="ms-5" style="margin-top: 15px; display: inline-flex; width: 120px;">
+                        ${{ pedido.producto.precio|number}}</p>
+                    <p style="margin-left: 10px; margin-top: 15px; width: 150px;">Cantidad: {{
+                        pedido.cantidad|number}}</p>
+                    <p style="margin-left: 10px; margin-top: 15px; width: 150px;">Total: ${{
+                        pedido.total|number}}</p>
+                </div>
+
+                <p style="margin-left: 10px; margin-top: 15px; font-weight: 900; text-align: end;">Total de compra: ${{
+                    articulos.precioTotal|number}}</p>
+
+            </div>
+        </div>
+
+    </div>
+</div>

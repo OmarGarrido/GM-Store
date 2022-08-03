@@ -1,11 +1,12 @@
 export const environment = {
   production: false,
-  firebaseConfig:  {
-    apiKey: "AIzaSyBGpYyGrrTK9pVf6fBJbmdGrgWgYu8SS6o",
-    authDomain: "claudia-32bd6.firebaseapp.com",
-    projectId: "claudia-32bd6",
-    storageBucket: "claudia-32bd6.appspot.com",
-    messagingSenderId: "362590677011",
-    appId: "1:362590677011:web:1fafefb355d9ab357f77e6"
-  }
+
+  firebaseConfig: {
+    apiKey: 'AIzaSyCoQaRpthDGzitAkrTiP-Jqzkd6PsZ7PVM',
+    authDomain: 'motos-86506.firebaseapp.com',
+    projectId: 'motos-86506',
+    storageBucket: 'motos-86506.appspot.com',
+    messagingSenderId: '551433227786',
+    appId: '1:551433227786:web:852030e957906e762519f3',
+  },
 };

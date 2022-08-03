@@ -10,16 +10,16 @@ import { FirebaseService } from 'src/app/Servicios/firebase.service';
 @Component({
   selector: 'app-crud',
   templateUrl: './crud.component.html',
-  styleUrls: ['./crud.component.css']
+  styleUrls: ['./crud.component.css'],
 })
 export class CrudComponent implements OnInit {
-
-  collection = { data: [] }
-  SmartphoneForm: FormGroup;
+  collection = { data: [] };
+  MotoForm: FormGroup;
   idFirebaseUpdate: string;
   updSave: boolean;
-  config: any
-  closeResult = "";
+  config: any;
+  closeResult = '';
+  options = ['Vehiculo', 'Refaccion'];
 
   //
   uploadPercent: Observable<number>;
@@ -30,7 +30,8 @@ export class CrudComponent implements OnInit {
     public fb: FormBuilder,
     private modalService: NgbModal,
     private fibaseService: FirebaseService,
-    private readonly storage: AngularFireStorage) { }
+    private readonly storage: AngularFireStorage
+  ) {}
 
   onUpload(e) {
     /* console.log(e.target.files[0]); */
@@ -40,57 +41,52 @@ export class CrudComponent implements OnInit {
     const ref = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
     this.uploadPercent = task.percentageChanges();
-    task.snapshotChanges().pipe(
-      finalize(
-        () => this.urlImage = ref.getDownloadURL())).subscribe();
-
+    task
+      .snapshotChanges()
+      .pipe(finalize(() => (this.urlImage = ref.getDownloadURL())))
+      .subscribe();
   }
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-
   }
 
   ngOnInit(): void {
-    this.idFirebaseUpdate = "";
+    this.idFirebaseUpdate = '';
 
     this.config = {
       itemsPerPage: 10,
       currentPage: 1,
-      totalItems: this.collection.data.length
+      totalItems: this.collection.data.length,
     };
 
-    this.SmartphoneForm = this.fb.group({
+    this.MotoForm = this.fb.group({
+      marca: ['', Validators.required],
       modelo: ['', Validators.required],
       descripcion: ['', Validators.required],
-      procesador: ['', Validators.required],
-      camara: ['', Validators.required],
-      almacenamiento: ['', Validators.required],
       precio: ['', Validators.required],
+      categoria: ['', Validators.required],
       existencias: ['', Validators.required],
-      calificacion: ['', Validators.required],
-      url: ['', Validators.required]
+      url: ['', Validators.required],
     });
 
-    this.fibaseService.getSmartphone().subscribe(
-      resp => {
+    this.fibaseService.getMoto().subscribe(
+      (resp) => {
         this.collection.data = resp.map((e: any) => {
           return {
+            marca: e.payload.doc.data().marca,
             modelo: e.payload.doc.data().modelo,
             descripcion: e.payload.doc.data().descripcion,
-            procesador: e.payload.doc.data().procesador,
-            camara: e.payload.doc.data().camara,
-            almacenamiento: e.payload.doc.data().almacenamiento,
             precio: e.payload.doc.data().precio,
+            categoria: e.payload.doc.data().categoria,
             existencias: e.payload.doc.data().existencias,
-            calificacion: e.payload.doc.data().calificacion,
             url: e.payload.doc.data().url,
-            idFirebase: e.payload.doc.id
-          }
-        })
+            idFirebase: e.payload.doc.id,
+          };
+        });
       },
-      error => {
+      (error) => {
         console.error(error);
       }
     );
@@ -101,73 +97,81 @@ export class CrudComponent implements OnInit {
   }
 
   eliminar(item: any): void {
-    this.fibaseService.eliminarSmartphone(item.idFirebase)
-/*   this.collection.data.pop(item);
- */};
+    this.fibaseService.eliminarMoto(item.idFirebase);
+    /*   this.collection.data.pop(item);
+     */
+  }
 
   guardar(url: string) {
-    this.SmartphoneForm.value.url = url;
-    this.fibaseService.createSmartphone(this.SmartphoneForm.value).
-      then(resp => {
-        this.SmartphoneForm.reset();
+    this.MotoForm.value.url = url;
+    this.fibaseService
+      .createMoto(this.MotoForm.value)
+      .then((resp) => {
+        this.MotoForm.reset();
         this.modalService.dismissAll();
-        this.urlImage = new Observable;
+        this.urlImage = new Observable();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
-
-      })
-
-  };
+      });
+  }
 
   actualizar(url: string) {
     //!isNullOrUndefined(this.idFirebaseUpdate)
     if (this.idFirebaseUpdate != null) {
-      this.SmartphoneForm.value.url = url;
-      this.fibaseService.updateSmartphone(this.idFirebaseUpdate, this.SmartphoneForm.value).then(resp => {
-        this.SmartphoneForm.reset();
-        this.modalService.dismissAll();
-        this.urlImage = new Observable;
-      })
-        .catch(error => {
+      this.MotoForm.value.url = url;
+      this.fibaseService
+        .updateMoto(this.idFirebaseUpdate, this.MotoForm.value)
+        .then((resp) => {
+          this.MotoForm.reset();
+          this.modalService.dismissAll();
+          this.urlImage = new Observable();
+        })
+        .catch((error) => {
           console.error(error);
-
         });
     }
   }
-
 
   //esto es codigo del modal
   editar(content, item: any) {
     this.updSave = true;
     //llenando formulario con los datos a editar
-    this.SmartphoneForm.setValue({
+    this.MotoForm.setValue({
+      marca: item.marca,
       modelo: item.modelo,
       descripcion: item.descripcion,
-      procesador: item.procesador,
-      camara: item.camara,
-      almacenamiento: item.almacenamiento,
       precio: item.precio,
+      categoria: item.categoria,
       existencias: item.existencias,
-      calificacion: item.calificacion,
-      url: item.url
+      url: item.url,
     });
     this.idFirebaseUpdate = item.idFirebase;
-    console.log(this.idFirebaseUpdate)    //**//
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    console.log(this.idFirebaseUpdate); //**//
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
 
   nuevo(content) {
     this.updSave = false;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
 
   private getDismissReason(reason: any): string {
@@ -179,5 +183,4 @@ export class CrudComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
 }

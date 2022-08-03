@@ -2,7 +2,7 @@
   <!-- <a class="navbar-brand" href="#">Navbar</a> -->
   <a [routerLink]="['Inicio']">
     <img class="navbar-brand mb-2 ml-3" style="width: 200px;"
-      src="https://fontmeme.com/permalink/210424/67fbe406248fc7f82344efafd26b5ccb.png">
+      src="https://fontmeme.com/permalink/220803/42115ce5b1f5f85c6bfd1cbe7881baea.png">
   </a>
   <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
     <span class="navbar-toggler-icon"></span>
@@ -13,12 +13,15 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['Inicio']" (click)="isMenuCollapsed=true">Inicio</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['Pedidos']" (click)="isMenuCollapsed=true">Pedidos</a>
+      </li>
 
       <!-- para dropDown y collapse visitar ng-bootstrap porque es directiva como routerLink -->
       <li class="nav-item " ngbDropdown>
         <a class="nav-link" [routerLink] ngbDropdownToggle>{{user?.displayName}}</a>
         <div ngbDropdownMenu>
-          <a class="dropdown-item" [routerLink]="['crud']">Admin</a>
+          <a *ngIf="user?.email=='admin@master.com'" class="dropdown-item" [routerLink]="['crud']">Admin</a>
           <a class="dropdown-item" (click)="onLogout()" [routerLink]>Logout</a>
         </div>
       </li>
@@ -35,22 +38,27 @@
                   <div class="col-auto" style="display: inline-flex;">
                     <img [src]="pedido.producto.url" style="margin: 5px; height: 60px; width: 60px;">
                     <p style="margin-left: 25px; margin-top: 15px; width: 150px;">{{pedido.producto.marca}}</p>
-                    <p class="ms-5" style="margin-top: 15px; display: inline-flex; width: 80px;">
-                      ${{pedido.producto.precio|number}}</p>
+                    <p class="ms-5" style="margin-top: 15px; display: inline-flex; width: 120px;">
+                      ${{ pedido.producto.precio|number}}</p>
                   </div>
                   <div class="col-auto">
-                    <button class="btn btn-success mt-2 me-2" style="border-radius: 70px;" (click)="add(pedido.producto)"><i
-                        class="fas fa-plus"></i></button>
+                    <button class="btn btn-success mt-2 me-2" style="border-radius: 70px;"
+                      (click)="add(pedido.producto)"><i class="fas fa-plus"></i></button>
                     <input style="width: 60px;" min="0" readonly="true" type="number" class="btn mt-2"
                       [value]="pedido.cantidad">
-                    <button class="btn btn-danger mt-2" style="border-radius: 70px;" (click)="delete(pedido.producto)"><i
-                        class="fas fa-minus"></i></button>
+                    <button class="btn btn-danger mt-2" style="border-radius: 70px;"
+                      (click)="delete(pedido.producto)"><i class="fas fa-minus"></i></button>
                   </div>
                 </div>
                 <hr>
-                <p style="text-align: right;">Total: </p>
+                <div class="d-grid gap-2">
+                  <p style="text-align: right; font-weight: 800;font-size: large;">Total: {{pedidos.precioTotal|number}}
+                  </p>
+                  <button class="btn btn-success" (click)="Pagar()">Pagar</button>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </li>

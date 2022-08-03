@@ -42,7 +42,7 @@ export class AuthService {
 
   async logout() {
     const result = await this.afServ.signOut();
-    this.router.navigate(['home']);
+    this.router.navigate(['Inicio']);
     return result;
   }
 

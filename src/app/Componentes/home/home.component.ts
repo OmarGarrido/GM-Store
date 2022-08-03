@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
       marca: smartphone.marca,
       modelo: smartphone.marca,
       precio: smartphone.precio,
-      calificacion: smartphone.calificacion,
+      // calificacion: smartphone.calificacion,
       url: smartphone.url,
       idFirebase: smartphone.idFirebase
     }
@@ -72,17 +72,16 @@ export class HomeComponent implements OnInit {
   }
 
   loadData() {
-    this.firebaseServ.getSmartphone().subscribe(
+    this.firebaseServ.getMoto().subscribe(
       resp => {
         this.data = resp.map((e: any) => {
           return {
             marca: e.payload.doc.data().marca,
+            modelo: e.payload.doc.data().modelo,
             descripcion: e.payload.doc.data().descripcion,
             precio: e.payload.doc.data().precio,
-            procesador: e.payload.doc.data().procesador,
-            camara: e.payload.doc.data().camara,
-            almacenamiento: e.payload.doc.data().almacenamiento,
-            calificacion: e.payload.doc.data().calificacion,
+            categoria: e.payload.doc.data().categoria,
+            existencias: e.payload.doc.data().existencias,
             url: e.payload.doc.data().url,
             idFirebase: e.payload.doc.id,
           }

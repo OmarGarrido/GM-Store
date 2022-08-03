@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
         const user =await this.authServ.login(email,password);
         if(user){
           //redireccion a la pagina de inicio
-          this.router.navigate(['crud'])
+          this.router.navigate(['Inicio'])
         }
       }
       catch(error){

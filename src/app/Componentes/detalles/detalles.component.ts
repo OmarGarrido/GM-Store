@@ -17,10 +17,14 @@ export class DetallesComponent implements OnInit {
   mxn: number;
   precio: number;
   opt: any
+  calificacion
   constructor(
     private firebaseServ: FirebaseService,
     private router: Router
-  ) { }
+    ) { 
+    this.calificacion=Math.random()*(5-1)+1
+
+  }
 
 
   ngOnInit(): void {

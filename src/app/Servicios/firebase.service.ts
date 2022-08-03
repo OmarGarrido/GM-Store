@@ -1,37 +1,44 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore'
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs'
+import { getuid } from 'process';
+import { BehaviorSubject } from 'rxjs';
+import { AuthService } from './auth.service';
+import { CarritoService } from './carrito.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FirebaseService {
-
-  objecjSorce = new BehaviorSubject<{}>({})
-  data: any = []
+  objecjSorce = new BehaviorSubject<{}>({});
+  data: any = [];
 
   $getObjecjtSorce = this.objecjSorce.asObservable();
 
-
   constructor(
     private firestore: AngularFirestore,
-    private router: Router) { }
+    private fireAuth: AuthService
+  ) {}
+
+  getPedidos<tipo>(uid: string) {
+    const path = 'Usuarios/' + uid + '/' + 'pedidos';
+    return this.firestore.collection<tipo>(path).valueChanges();
+  }
 
   getUser() {
-    return this.firestore.collection("usuarios").snapshotChanges();
+    return this.firestore.collection('usuarios').snapshotChanges();
   }
 
   createUser(user: any) {
-    return this.firestore.collection("usuarios").add(user);
+    return this.firestore.collection('usuarios').add(user);
   }
 
   sendObjectSorce(data: any) {
     this.objecjSorce.next(data);
   }
 
-  getSmartphone() {
-    return this.firestore.collection("Smartphone2").snapshotChanges();
+  getMoto() {
+    return this.firestore.collection('Motos').snapshotChanges();
   }
 
   // metodo alterno para cargar coleciones generico
@@ -41,29 +48,32 @@ export class FirebaseService {
     // return this.firestore.collection(path).snapshotChanges();
   }
 
-  crearDoc(path:string, data:any, id:string){
-    const collection=this.firestore.collection(path);
+  crearDoc(path: string, data: any, id: string) {
+    const collection = this.firestore.collection(path);
     return collection.doc(id).set(data);
   }
 
-  // 
-  createSmartphone(Smartphone: any) {
-    return this.firestore.collection("Smartphone2").add(Smartphone);
+  //
+  createMoto(moto: any) {
+    return this.firestore.collection('Motos').add(moto);
   }
 
-  updateSmartphone(id: any, Smartphone: any) {
-    return this.firestore.collection("Smartphone2").doc(id).update(Smartphone);
+  updateMoto(id: any, Moto: any) {
+    return this.firestore.collection('Motos').doc(id).update(Moto);
   }
 
-  eliminarSmartphone(id: any) {
-    return this.firestore.collection("Smartphone2").doc(id).delete();
+  eliminarMoto(id: any) {
+    return this.firestore.collection('Motos').doc(id).delete();
   }
 
-  agregarUrl(Smartphone: any) {
-    return this.firestore.collection("Smartphone2").doc(Smartphone.id).update(Smartphone.url);
+  agregarUrl(Moto: any) {
+    return this.firestore.collection('Motos').doc(Moto.id).update(Moto.url);
   }
 
-
+  createPedido(path: string, data: any) {
+    return this.firestore.collection(path).add(data);
+  }
+  deletDoc(path: string, id: string) {
+    return this.firestore.collection(path).doc(id).delete();
+  }
 }
-
-

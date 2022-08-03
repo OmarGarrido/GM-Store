@@ -1,36 +1,51 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CarritoService } from 'src/app/Servicios/carrito.service';
 import { FirebaseService } from 'src/app/Servicios/firebase.service';
 
 @Component({
   selector: 'app-pagos',
   templateUrl: './pagos.component.html',
-  styleUrls: ['./pagos.component.css']
+  styleUrls: ['./pagos.component.css'],
 })
 export class PagosComponent implements OnInit {
-
-  smartPhone:any={}
+  carrito: any = {};
   closeResult: string;
 
   constructor(
-    private firebaseServ:FirebaseService,
-    private modalService: NgbModal
-  ) { }
+    private router: Router,
+    private modalService: NgbModal,
+    private carritoServ: CarritoService
+  ) {}
 
   ngOnInit(): void {
-    this.firebaseServ.$getObjecjtSorce.subscribe(data=>this.smartPhone=data).unsubscribe();
-    console.log(this.smartPhone)
+    this.carrito = this.carritoServ.getCarrito();
+    // this.firebaseServ.$getObjecjtSorce
+    //   .subscribe((data) => (this.smartPhone = data))
+    //   .unsubscribe();
+    console.log(this.carrito);
+  }
+
+  Pedidos() {
+    this.carritoServ.realizarPedido();
+    this.router.navigate(['Pedidos']);
   }
 
   nuevoPago(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
-  
-  cerrar(){
+
+  cerrar() {
     this.modalService.dismissAll();
   }
 
@@ -43,6 +58,4 @@ export class PagosComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
-
 }
